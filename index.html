@@ -1,0 +1,1970 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Plauderstunde</title>
+<meta name="description" content="Deutsch sprechen üben mit Lotte – Rollenspiele von A1 bis C2, gesprochene Antworten und Korrekturen mit dem Rotstift.">
+<meta name="theme-color" content="#F5F7FB" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1424" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Plauderstunde">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout: one-screen app — header with tabs, a ruled exercise-book column that scrolls, composer docked at the bottom.
+   Idea: the learner writes in Königsblau school ink, Lotte answers in black ink, corrections come in the teacher's red pen. */
+:root{
+  color-scheme:light;
+  --paper:#F5F7FB; --surface:#FFFFFF; --surface-2:#ECF0F8; --ink:#15213A; --muted:#5A6781; --line:#D8DFEC;
+  --rule:rgba(35,70,168,.075); --margin:rgba(196,47,40,.32);
+  --blue:#2346A8; --blue-soft:#DFE6F9; --on-blue:#FFFFFF;
+  --red:#C02F27; --red-soft:#FBE6E3; --green:#2A7849; --green-soft:#DFF1E5; --amber:#8A5A00; --amber-soft:#FFF0C7;
+  --scrim:rgba(8,12,24,.45);
+  --shadow:0 1px 2px rgba(21,33,58,.06),0 6px 18px rgba(21,33,58,.07);
+  --f-display:"Barlow Condensed","Arial Narrow","Helvetica Neue",system-ui,sans-serif;
+  --f-ui:"Barlow",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-read:"Literata",Georgia,"Times New Roman",serif;
+  --f-hand:"Caveat","Noteworthy","Segoe Print","Bradley Hand",cursive;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#0E1424; --surface:#161F33; --surface-2:#1D2741; --ink:#E6ECF7; --muted:#97A4BC; --line:#2A3652;
+  --rule:rgba(140,166,255,.06); --margin:rgba(255,124,114,.26);
+  --blue:#8DA7FF; --blue-soft:#243259; --on-blue:#0E1424;
+  --red:#FF7D72; --red-soft:#3A1F25; --green:#64CB90; --green-soft:#16332A; --amber:#F2C35B; --amber-soft:#3A2F12;
+  --scrim:rgba(0,0,0,.6);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 18px rgba(0,0,0,.25); color-scheme:dark}}
+
+html{height:100%;box-sizing:border-box;-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{height:100%;margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.5 var(--f-ui);-webkit-font-smoothing:antialiased;overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.lbl{font:600 .7rem/1.2 var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.en{color:var(--muted);font-size:.86rem}
+
+.app{height:100%;height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto}
+.app > *{min-width:0}
+
+/* Header */
+.top{background:var(--paper);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px 4px}
+.brand{min-width:0}
+.brand-name{display:block;font:700 1.65rem/1 var(--f-display);letter-spacing:.005em}
+.brand-name span{color:var(--blue)}
+.brand-sub{display:block;margin-top:3px;font:500 .7rem/1.2 var(--f-ui);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.level-btn{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px 0 14px;border-radius:999px;border:1.5px solid var(--blue);background:var(--surface);color:var(--blue);font:700 1.15rem/1 var(--f-display);letter-spacing:.03em}
+.level-btn svg{width:14px;height:14px}
+.icon-btn{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:0}
+.icon-btn svg{width:20px;height:20px}
+.icon-btn.sm{width:32px;height:32px;border-color:transparent;background:transparent;color:var(--muted)}
+.icon-btn.sm svg{width:18px;height:18px}
+.icon-btn.sm:hover{background:var(--surface-2);color:var(--ink)}
+.icon-btn.on{color:var(--blue)}
+.icon-btn.on svg path{fill:currentColor}
+.icon-btn.speaking{color:var(--blue);background:var(--blue-soft)}
+.tabs{display:flex;gap:2px}
+.tabs button{flex:1 1 auto;min-width:0;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:10px 2px 9px;border:0;border-bottom:2.5px solid transparent;background:none;color:var(--muted);font:600 1rem/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase}
+@media (max-width:420px){.tabs button{font-size:.92rem;letter-spacing:.02em}}
+.tabs button[aria-selected="true"]{color:var(--blue);border-bottom-color:var(--blue)}
+.count{display:inline-grid;place-items:center;min-width:20px;height:18px;padding:0 5px;border-radius:999px;background:var(--surface-2);color:var(--muted);font:600 .72rem/1 var(--f-ui);letter-spacing:0;font-variant-numeric:tabular-nums}
+.count:empty{display:none}
+
+/* Main + exercise-book ruling */
+main{overflow-y:auto;min-height:0;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+main.ruled{background-image:repeating-linear-gradient(to bottom,transparent 0 31px,var(--rule) 31px 32px);background-attachment:local}
+.scene-bar{position:sticky;top:0;z-index:3;background:var(--paper);border-bottom:1px solid var(--line)}
+.scene-bar .wrap{display:flex;align-items:center;gap:10px;padding-block:8px}
+.scene-info{flex:1;min-width:0}
+.scene-title{display:block;font:600 1.05rem/1.2 var(--f-display);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scene-sub{display:block;font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.thread{position:relative;display:flex;flex-direction:column;gap:14px;padding-block:18px 28px}
+.thread::before{content:"";position:absolute;top:0;bottom:0;left:-9px;width:1.5px;background:var(--margin);pointer-events:none}
+
+/* Learner bubble */
+.l-wrap{align-self:flex-end;max-width:86%;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.msg-l{margin:0;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:16px 16px 4px 16px;color:var(--blue);font:500 1.04rem/1.5 var(--f-read);white-space:pre-wrap;overflow-wrap:anywhere}
+.badge{font:700 1.15rem/1 var(--f-hand);padding-right:6px}
+.badge.ok{color:var(--green)}
+.badge.err{color:var(--red)}
+.badge.q{color:var(--blue)}
+
+/* Tutor card */
+.msg-t{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 16px 14px;box-shadow:var(--shadow);min-width:0}
+.t-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.avatar{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:999px;background:var(--ink);color:var(--paper);font:700 .95rem/1 var(--f-display)}
+.t-name{font:600 1rem/1 var(--f-display);letter-spacing:.04em;text-transform:uppercase}
+.sp{flex:1}
+.t-setting{margin:6px 0 8px;padding:8px 10px;border-radius:10px;background:var(--surface-2);font-size:.88rem;color:var(--muted)}
+.t-setting .lbl{margin-right:6px}
+.t-reply{margin:2px 0 0;font:500 1.14rem/1.55 var(--f-read);overflow-wrap:anywhere}
+.t-en{margin:4px 0 0;font-size:.86rem;line-height:1.45;color:var(--muted);transition:filter .2s}
+.hide-en .t-en{filter:blur(5px);cursor:pointer;user-select:none;-webkit-user-select:none}
+.hide-en .t-en.show{filter:none;cursor:auto;user-select:auto;-webkit-user-select:auto}
+.pending .t-reply{color:var(--muted)}
+.dots{display:inline-flex;gap:4px;vertical-align:middle;margin-left:4px}
+.dots i{width:6px;height:6px;border-radius:999px;background:var(--muted);animation:blink 1.2s infinite both}
+.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+
+/* Red pen */
+.rot{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.rot-h{display:flex;align-items:baseline;gap:10px;margin:0 0 6px;font:700 1.5rem/1 var(--f-hand);color:var(--red)}
+.rot.ok .rot-h{color:var(--green)}
+.rot.q .rot-h{color:var(--blue)}
+.rot-h small{font:600 .7rem/1 var(--f-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.rot-corr{margin:0;font:500 1.04rem/1.55 var(--f-read);overflow-wrap:anywhere}
+.rot-corr mark{background:none;color:var(--red);text-decoration:underline wavy var(--red);text-decoration-thickness:1.5px;text-underline-offset:4px}
+.fixes{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+.fix-line{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;font:500 .98rem/1.4 var(--f-read)}
+.fix-line s{color:var(--red);text-decoration-color:var(--red);text-decoration-thickness:1.5px;opacity:.85}
+.fix-line b{color:var(--green);font-weight:600}
+.arrow{color:var(--muted);font-family:var(--f-ui)}
+.cat{font:600 .66rem/1 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:999px;background:var(--red-soft);color:var(--red)}
+.why{margin:3px 0 0;font-size:.9rem;line-height:1.45;color:var(--ink)}
+.natural{margin:10px 0 0;padding:8px 10px;border-radius:10px;background:var(--green-soft);font:500 .98rem/1.5 var(--f-read)}
+.natural .lbl{display:block;margin-bottom:2px;color:var(--green)}
+.praise{margin:8px 0 0;font:700 1.2rem/1.1 var(--f-hand);color:var(--green)}
+.rot-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+/* Vocab */
+.voc{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}
+.voc ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.voc li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;align-items:start}
+.voc-de{font:600 1rem/1.4 var(--f-read)}
+.kind{display:inline-block;margin-left:6px;vertical-align:2px;font:600 .62rem/1 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;padding:3px 6px;border-radius:999px;background:var(--blue-soft);color:var(--blue)}
+.kind.slang{background:var(--amber-soft);color:var(--amber)}
+.kind.idiom{background:var(--green-soft);color:var(--green)}
+.voc-en{font-size:.88rem;color:var(--muted)}
+.voc-note{font-size:.84rem;color:var(--ink);opacity:.85}
+.voc-acts{display:flex;grid-row:1 / span 3;grid-column:2}
+.tip{margin:12px 0 0;padding:9px 12px;border-radius:10px;background:var(--amber-soft);font-size:.9rem;line-height:1.45}
+.tip .lbl{display:block;color:var(--amber);margin-bottom:2px}
+
+.err-card{align-self:stretch;padding:12px 14px;border-radius:14px;border:1px solid var(--red);background:var(--red-soft);font-size:.92rem}
+.err-card p{margin:0 0 8px}
+.err-card .row{display:flex;flex-wrap:wrap;gap:8px}
+.note-line{align-self:center;font-size:.8rem;color:var(--muted);text-align:center}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:42px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 .95rem/1.1 var(--f-ui);text-decoration:none}
+.btn svg{width:17px;height:17px}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.btn.sm{min-height:34px;padding:6px 12px;font-size:.86rem}
+.btn.ghost{background:transparent}
+.btn.danger{color:var(--red)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.5;cursor:default}
+
+/* Welcome */
+.welcome{display:flex;flex-direction:column;gap:18px;padding-block:6px 10px}
+.eyebrow{margin:0;color:var(--red);font:700 1.3rem/1 var(--f-hand)}
+.w-title{margin:4px 0 0;font:700 clamp(2rem,7vw,2.8rem)/1.02 var(--f-display);letter-spacing:.005em;text-wrap:balance}
+.w-text{margin:0;max-width:60ch;font:400 1.02rem/1.55 var(--f-read)}
+.w-text .en{display:block;margin-top:4px;font-family:var(--f-ui)}
+.w-actions{display:flex;flex-wrap:wrap;gap:10px}
+.w-section{display:flex;flex-direction:column;gap:8px}
+.pick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:640px){.pick-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.pick{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);text-align:left;min-width:0}
+.pick b{font:600 1.02rem/1.15 var(--f-display);letter-spacing:.02em}
+.pick span{font-size:.8rem;line-height:1.3;color:var(--muted)}
+.resume{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1.5px solid var(--blue);background:var(--surface)}
+.resume div{flex:1;min-width:0}
+.resume b{display:block;font:600 1.05rem/1.2 var(--f-display)}
+.setup-card{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-radius:16px;border:1.5px solid var(--red);background:var(--surface)}
+.setup-card b{font:700 1.35rem/1.1 var(--f-display)}
+.setup-card p{margin:0;font-size:.95rem;line-height:1.45}
+.setup-card p .en{display:block;margin-top:2px}
+.setup-card .btn{align-self:flex-start}
+.example{margin:0;padding:12px 14px;border-radius:14px;border:1px dashed var(--line);background:var(--surface)}
+.example .lbl{display:block;margin-bottom:6px}
+.ex-l{margin:0;color:var(--blue);font:500 1rem/1.5 var(--f-read)}
+.ex-r{margin:4px 0 0;font:500 1rem/1.5 var(--f-read)}
+.ex-r mark{background:none;color:var(--red);text-decoration:underline wavy var(--red);text-underline-offset:4px}
+.ex-why{margin:4px 0 0;font-size:.86rem;color:var(--muted)}
+
+/* Composer */
+.composer{background:var(--paper);border-top:1px solid var(--line)}
+.composer .wrap{padding-block:8px calc(10px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px}
+.quick{display:flex;gap:6px;min-width:0;overflow-x:auto;scrollbar-width:none;margin-inline:-2px;padding-inline:2px}
+.quick::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font:500 .84rem/1.1 var(--f-ui);color:var(--ink);white-space:nowrap}
+.chip svg{width:15px;height:15px}
+.chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.suggest{display:flex;flex-direction:column;gap:6px}
+.sug{display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:8px 12px;border-radius:12px;border:1px solid var(--blue);background:var(--surface);text-align:left}
+.sug b{font:500 .98rem/1.35 var(--f-read);color:var(--blue)}
+.sug span{font-size:.8rem;color:var(--muted)}
+.hint{padding:10px 12px;border-radius:12px;background:var(--blue-soft);font-size:.88rem;line-height:1.45;display:flex;gap:10px;align-items:flex-start}
+.hint p{margin:0;flex:1}
+.hint .en{display:block;margin-top:2px}
+.compose{display:flex;align-items:flex-end;gap:8px}
+.compose textarea{flex:1;min-width:0;resize:none;max-height:140px;min-height:46px;padding:11px 16px;border-radius:23px;border:1px solid var(--line);background:var(--surface);font:400 16px/1.4 var(--f-ui);color:var(--ink)}
+.compose textarea::placeholder{color:var(--muted)}
+.round{flex-shrink:0;display:grid;place-items:center;width:46px;height:46px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:0}
+.round svg{width:22px;height:22px}
+.round.send{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+.round.send:disabled{opacity:.45;cursor:default}
+.round.mic.on{background:var(--red);border-color:var(--red);color:var(--on-blue);animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--margin)}100%{box-shadow:0 0 0 12px transparent}}
+
+/* Pages: saved + progress */
+.page{display:flex;flex-direction:column;gap:16px;padding-block:18px calc(32px + env(safe-area-inset-bottom,0px))}
+.page-h{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px}
+.page-h h2{margin:0;font:700 2rem/1 var(--f-display)}
+.page-h .acts{display:flex;flex-wrap:wrap;gap:8px}
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.search{width:100%;min-height:42px;padding:9px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:16px}
+.sv-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.sv{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.sv-de{font:600 1.05rem/1.4 var(--f-read);overflow-wrap:anywhere}
+.sv-en{font-size:.9rem;color:var(--muted)}
+.sv-note{font-size:.84rem}
+.sv-meta{font-size:.76rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;margin-top:2px}
+.sv-acts{grid-column:2;grid-row:1 / span 4;display:flex;align-items:flex-start;gap:2px}
+.del-confirm{color:var(--red)!important;width:auto!important;padding:0 8px!important;font:600 .8rem/1 var(--f-ui)}
+.box-dots{display:inline-flex;gap:2px}
+.box-dots i{width:6px;height:6px;border-radius:2px;background:var(--line)}
+.box-dots i.f{background:var(--green)}
+.empty{padding:22px 16px;border:1px dashed var(--line);border-radius:14px;text-align:center;color:var(--muted);font-size:.92rem;background:var(--surface)}
+.empty b{display:block;color:var(--ink);font:600 1.1rem/1.3 var(--f-display);margin-bottom:4px}
+
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:600px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.stat{padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.stat b{display:block;font:700 2.1rem/1 var(--f-display);font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:4px;font-size:.82rem;color:var(--muted);line-height:1.3}
+.panel{padding:14px 16px;border-radius:16px;background:var(--surface);border:1px solid var(--line);min-width:0}
+.panel h3{margin:0 0 2px;font:600 1.25rem/1.1 var(--f-display);letter-spacing:.02em}
+.panel .sub{margin:0 0 10px;font-size:.84rem;color:var(--muted)}
+.chart svg{display:block;width:100%;height:auto}
+.chart text{fill:var(--muted);font:500 9px var(--f-ui)}
+.chart .grid{stroke:var(--line);stroke-width:1}
+.chart .b-all{fill:var(--blue-soft)}
+.chart .b-ok{fill:var(--blue)}
+.chart .today{fill:var(--ink);font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.lg-all{background:var(--blue-soft)}
+.lg-ok{background:var(--blue)}
+.mist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.mist li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;align-items:center}
+.mist-name{font:600 1rem/1.2 var(--f-display);letter-spacing:.02em}
+.mist-name small{font:400 .8rem var(--f-ui);color:var(--muted);letter-spacing:0;margin-left:4px}
+.mist-bar{grid-column:1;height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.mist-bar i{display:block;height:100%;border-radius:999px;background:var(--red)}
+.mist .btn{grid-column:2;grid-row:1 / span 2}
+.sess{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.sess li{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.sess li:last-child{border-bottom:0}
+.sess div{flex:1;min-width:0}
+.sess b{display:block;font:600 1rem/1.2 var(--f-display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sess span{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.store-note{font-size:.82rem;color:var(--muted);text-align:center;margin:0}
+
+/* Sheets */
+.backdrop{position:fixed;inset:0;background:var(--scrim);z-index:40}
+.sheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:600px;max-height:90%;overflow-y:auto;z-index:50;background:var(--surface);border-radius:20px 20px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.18);padding:6px max(18px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));overscroll-behavior:contain}
+.grab{width:40px;height:4px;border-radius:999px;background:var(--line);margin:4px auto 6px}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-block:4px 12px}
+.sheet-h h3{margin:0;font:700 1.55rem/1 var(--f-display)}
+.lv-list{display:flex;flex-direction:column;gap:6px}
+.lv{display:grid;grid-template-columns:54px minmax(0,1fr);align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);text-align:left}
+.lv[aria-pressed="true"]{border-color:var(--blue);background:var(--blue-soft)}
+.lv b{font:700 1.7rem/1 var(--f-display);color:var(--blue)}
+.lv strong{display:block;font:600 1rem/1.2 var(--f-ui)}
+.lv span{display:block;font-size:.82rem;color:var(--muted);line-height:1.35}
+.scene-group{margin:14px 0 6px}
+.scene-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pick .lvl{font:600 .64rem/1 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-top:3px}
+.custom{display:flex;gap:8px;margin-top:6px}
+.custom input{flex:1;min-width:0;min-height:42px;padding:8px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:16px}
+.sheet-section{margin-top:6px}
+.sheet-section > .lbl{display:block;margin:16px 0 4px}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.set-row > div:first-child{min-width:0}
+.set-row label,.set-row .t{display:block;font-weight:600}
+.set-row .d{display:block;font-size:.82rem;color:var(--muted);line-height:1.35}
+.set-col{display:flex;flex-direction:column;gap:8px;padding:12px 0;border-bottom:1px solid var(--line)}
+.set-col select{width:100%;min-height:42px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+.set-col input[type=range]{width:100%;accent-color:var(--blue)}
+.set-col .d{font-size:.82rem;color:var(--muted);line-height:1.35}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px}
+.seg{display:inline-flex;flex-shrink:0;background:var(--surface-2);border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;padding:6px 12px;border-radius:999px;font:600 .84rem/1.1 var(--f-ui);color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.seg.wide{display:flex;width:100%}
+.seg.wide button{flex:1;padding:9px 8px}
+.switch{appearance:none;-webkit-appearance:none;flex-shrink:0;width:46px;height:28px;border-radius:999px;background:var(--line);position:relative;margin:0;transition:background .2s}
+.switch::before{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:999px;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+.switch:checked{background:var(--blue)}
+.switch:checked::before{transform:translateX(18px)}
+.form{display:flex;flex-direction:column;gap:12px}
+.form label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.9rem}
+.form input,.form select,.form textarea{min-height:42px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-size:16px;font-weight:400}
+.ai-status{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:12px;background:var(--surface-2)}
+.ai-status div{flex:1;min-width:0}
+.ai-status b{display:block}
+.ai-status span{display:block;font-size:.82rem;color:var(--muted);overflow-wrap:anywhere}
+.dot{width:10px;height:10px;border-radius:999px;background:var(--red);flex-shrink:0}
+.dot.ok{background:var(--green)}
+.steps{margin:12px 0 0;padding-left:1.3em;display:flex;flex-direction:column;gap:8px;font-size:.95rem;line-height:1.45}
+.steps .en{display:block}
+.key-form{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.key-row{display:flex;gap:8px}
+.key-row input{flex:1;min-width:0;min-height:44px;padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font:400 16px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace}
+.key-form select{min-height:42px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface)}
+.status-line{margin:0;font-size:.9rem;min-height:1.2em}
+.status-line.ok{color:var(--green)}
+.status-line.err{color:var(--red)}
+.fine{margin:14px 0 0;font-size:.82rem;line-height:1.45;color:var(--muted)}
+.fine .en{display:block;font-size:.8rem}
+.prof-list{display:flex;flex-direction:column;gap:6px}
+.prof{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;border:1px solid var(--line)}
+.prof.active{border-color:var(--blue);background:var(--blue-soft)}
+.prof div{flex:1;min-width:0}
+.prof b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prof span{font-size:.8rem;color:var(--muted)}
+.import-confirm{padding:10px 12px;border-radius:12px;background:var(--amber-soft);font-size:.9rem;display:flex;flex-direction:column;gap:8px}
+
+/* Flashcards */
+.fc{display:flex;flex-direction:column;gap:10px;align-items:stretch}
+.fc-card{min-height:200px;padding:20px 18px;border-radius:16px;border:1px solid var(--line);background:var(--paper);display:flex;flex-direction:column;justify-content:center;gap:10px;text-align:center;background-image:repeating-linear-gradient(to bottom,transparent 0 27px,var(--rule) 27px 28px)}
+.fc-q{margin:0;font:500 1.3rem/1.4 var(--f-read)}
+.fc-a{margin:0;font:600 1.3rem/1.4 var(--f-read);color:var(--blue)}
+.fc-note{margin:0;font-size:.86rem;color:var(--muted)}
+.fc-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.84rem;color:var(--muted)}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(120px + env(safe-area-inset-bottom,0px));z-index:60;max-width:min(90vw,460px);padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--paper);font-size:.9rem;box-shadow:var(--shadow);text-align:center}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div class="wrap">
+      <div class="top-row">
+        <div class="brand">
+          <span class="brand-name">Plauder<span>stunde</span></span>
+          <span class="brand-sub" id="brandSub">Deutsch sprechen mit Lotte</span>
+        </div>
+        <div class="top-actions">
+          <button class="level-btn" id="levelBtn" type="button" aria-haspopup="dialog" aria-label="Sprachniveau ändern"><span id="levelLabel">B2</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+          <button class="icon-btn" id="settingsBtn" type="button" aria-label="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Bereiche">
+        <button type="button" role="tab" id="tab-chat" data-view="chat" aria-selected="true">Gespräch</button>
+        <button type="button" role="tab" id="tab-saved" data-view="saved" aria-selected="false">Gespeichert <span class="count" id="savedCount"></span></button>
+        <button type="button" role="tab" id="tab-progress" data-view="progress" aria-selected="false">Fortschritt</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="ruled">
+    <section id="view-chat" aria-label="Gespräch">
+      <div class="scene-bar" id="sceneBar" hidden>
+        <div class="wrap">
+          <div class="scene-info"><span class="scene-title" id="sceneTitle"></span><span class="scene-sub" id="sceneSub"></span></div>
+          <button class="btn sm" type="button" data-act="pick-scene">Szene wechseln</button>
+        </div>
+      </div>
+      <div class="wrap"><div class="thread" id="thread"></div></div>
+    </section>
+    <section id="view-saved" aria-label="Gespeichert" hidden>
+      <div class="wrap page">
+        <div class="page-h">
+          <h2>Gespeichert</h2>
+          <div class="acts">
+            <button class="btn primary sm" type="button" data-act="cards">Karteikarten üben</button>
+            <button class="btn sm" type="button" data-act="add-entry"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Eintrag</button>
+          </div>
+        </div>
+        <div class="filters" id="filters" role="group" aria-label="Filter">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">Alle</button>
+          <button class="chip" type="button" data-filter="word" aria-pressed="false">Wörter</button>
+          <button class="chip" type="button" data-filter="phrase" aria-pressed="false">Wendungen &amp; Idiome</button>
+          <button class="chip" type="button" data-filter="slang" aria-pressed="false">Slang</button>
+          <button class="chip" type="button" data-filter="sentence" aria-pressed="false">Sätze</button>
+        </div>
+        <input class="search" id="svSearch" type="search" placeholder="Suchen … / Search" aria-label="Gespeicherte Einträge durchsuchen">
+        <ul class="sv-list" id="svList"></ul>
+      </div>
+    </section>
+    <section id="view-progress" aria-label="Fortschritt" hidden>
+      <div class="wrap page" id="progressPage"></div>
+    </section>
+  </main>
+
+  <footer class="composer" id="composer">
+    <div class="wrap">
+      <div class="hint" id="dictHint" hidden>
+        <p><b>Sprechen per Tastatur-Diktat:</b> Tippe ins Textfeld und dann auf das Mikrofon deiner Tastatur. Stell das Diktat auf Deutsch.<span class="en">The mic button isn't available here (for example in the Home Screen app, or with Siri &amp; Dictation off). Tap the text box, then the mic on your keyboard, with dictation set to German.</span></p>
+        <button class="icon-btn sm" type="button" data-act="close-hint" aria-label="Hinweis schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div class="suggest" id="suggest" hidden></div>
+      <div class="quick" id="quick">
+        <button class="chip" type="button" data-act="suggest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.6 1 2.5h6c0-.9.2-1.7 1-2.5A6 6 0 0 0 12 3z"/></svg>Hilf mir antworten</button>
+        <button class="chip" type="button" data-act="ins" data-text="Wie sagt man „…“ auf Deutsch?">Wie sagt man …?</button>
+        <button class="chip" type="button" data-act="ins" data-text="Was bedeutet „…“?">Was bedeutet …?</button>
+        <button class="chip" type="button" data-act="ins" data-text="Kannst du das bitte einfacher sagen?">Einfacher, bitte</button>
+        <button class="chip" type="button" data-act="pick-scene">Neue Szene</button>
+      </div>
+      <form class="compose" id="form" autocomplete="off">
+        <button class="round mic" id="micBtn" type="button" aria-label="Sprechen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+        <textarea id="input" rows="1" lang="de" placeholder="Schreib oder sprich auf Deutsch …" aria-label="Deine Nachricht auf Deutsch" autocapitalize="sentences" autocorrect="off" spellcheck="false"></textarea>
+        <button class="round send" id="sendBtn" type="submit" aria-label="Senden" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button>
+      </form>
+    </div>
+  </footer>
+</div>
+
+<div class="backdrop" id="backdrop" hidden></div>
+
+<div class="sheet" id="levelSheet" role="dialog" aria-modal="true" aria-labelledby="levelSheetTitle" hidden>
+  <div class="grab"></div>
+  <div class="sheet-h"><h3 id="levelSheetTitle">Dein Niveau</h3><button class="icon-btn" type="button" data-act="close" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="lv-list" id="levelList"></div>
+</div>
+
+<div class="sheet" id="sceneSheet" role="dialog" aria-modal="true" aria-labelledby="sceneSheetTitle" hidden>
+  <div class="grab"></div>
+  <div class="sheet-h"><h3 id="sceneSheetTitle">Szene wählen</h3><button class="icon-btn" type="button" data-act="close" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <button class="btn primary block" type="button" data-act="surprise">Überrasch mich – Lotte wählt</button>
+  <form class="custom" id="customForm">
+    <input id="customTopic" type="text" placeholder="Eigenes Thema, z. B. Urlaub in Indien" aria-label="Eigenes Thema">
+    <button class="btn" type="submit">Los</button>
+  </form>
+  <div id="sceneGroups"></div>
+</div>
+
+<div class="sheet" id="aiSheet" role="dialog" aria-modal="true" aria-labelledby="aiTitle" hidden>
+  <div class="grab"></div>
+  <div class="sheet-h"><h3 id="aiTitle">Lotte einrichten</h3><button class="icon-btn" type="button" data-act="close" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <p style="margin:0 0 12px">Lotte braucht einen KI-Schlüssel. Der Schlüssel von Google Gemini ist kostenlos.<span class="en" style="display:block">Lotte needs an AI key. A Google Gemini key is free and takes about two minutes.</span></p>
+  <div class="seg wide" id="provSeg" role="group" aria-label="KI-Anbieter">
+    <button type="button" data-prov="gemini" aria-pressed="true">Gemini · kostenlos</button>
+    <button type="button" data-prov="claude" aria-pressed="false">Claude · kostenpflichtig</button>
+  </div>
+
+  <div id="provGemini">
+    <ol class="steps">
+      <li>Öffne <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> und melde dich mit deinem Google-Konto an.<span class="en">Open the link and sign in with your Google account.</span></li>
+      <li>Tippe auf <b>„Create API key“</b>. Falls gefragt, wähle ein Projekt oder lege eins an.<span class="en">Tap “Create API key”. If asked, pick or create a project.</span></li>
+      <li>Kopiere den Schlüssel und füge ihn hier ein.<span class="en">Copy the key and paste it below.</span></li>
+    </ol>
+    <form class="key-form" id="geminiForm" autocomplete="off">
+      <label class="lbl" for="geminiKey">Gemini-API-Schlüssel</label>
+      <div class="key-row">
+        <input id="geminiKey" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Schlüssel hier einfügen">
+        <button class="btn sm" type="button" data-act="toggle-key" data-for="geminiKey">Zeigen</button>
+      </div>
+      <button class="btn primary" type="submit" id="geminiSave">Speichern &amp; prüfen</button>
+      <p class="status-line" id="geminiStatus" role="status"></p>
+    </form>
+    <div class="set-col" id="geminiModelRow" hidden>
+      <label for="geminiModel"><b>Modell</b> <span class="en">Model</span></label>
+      <select id="geminiModel"></select>
+      <span class="d">Flash-Lite: viele kostenlose Nachrichten pro Tag. Flash: genauere Korrekturen, aber nur wenige kostenlose Nachrichten pro Tag. Ist das Limit erreicht, wechselt Lotte automatisch.<span class="en" style="display:block">Flash-Lite: many free messages a day. Flash: sharper corrections, far fewer free messages. Lotte switches automatically when a limit is hit.</span></span>
+    </div>
+    <p class="fine">Kostenlos heißt bei Google: Deine Eingaben dürfen zur Verbesserung von Googles Produkten genutzt werden. Schreib Lotte also nichts Privates.<span class="en">On the free tier Google may use what you type to improve its products, so don't share private details.</span></p>
+  </div>
+
+  <div id="provClaude" hidden>
+    <ol class="steps">
+      <li>Öffne <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>, lade Guthaben auf und erstelle einen API-Schlüssel.<span class="en">Open the link, add credit and create an API key. You pay per use.</span></li>
+      <li>Füge den Schlüssel hier ein.<span class="en">Paste the key below.</span></li>
+    </ol>
+    <form class="key-form" id="claudeForm" autocomplete="off">
+      <label class="lbl" for="claudeKey">Anthropic-API-Schlüssel</label>
+      <div class="key-row">
+        <input id="claudeKey" type="password" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="sk-ant-…">
+        <button class="btn sm" type="button" data-act="toggle-key" data-for="claudeKey">Zeigen</button>
+      </div>
+      <label class="lbl" for="claudeModel">Modell</label>
+      <select id="claudeModel">
+        <option value="claude-haiku-5-5">Claude Haiku 5.5 – schnell und günstig</option>
+        <option value="claude-sonnet-5-5">Claude Sonnet 5.5 – die genauesten Korrekturen</option>
+      </select>
+      <button class="btn primary" type="submit" id="claudeSave">Speichern &amp; testen</button>
+      <p class="status-line" id="claudeStatus" role="status"></p>
+    </form>
+  </div>
+
+  <p class="fine">Dein Schlüssel wird nur auf diesem Gerät gespeichert und nur direkt an Google bzw. Anthropic geschickt.<span class="en">Your key is stored only on this device and sent only to Google or Anthropic.</span></p>
+  <div class="btn-row" style="margin-top:10px">
+    <button class="btn sm ghost danger" type="button" data-act="forget-keys" id="forgetKeys">Schlüssel von diesem Gerät löschen</button>
+  </div>
+</div>
+
+<div class="sheet" id="settingsSheet" role="dialog" aria-modal="true" aria-labelledby="settingsTitle" hidden>
+  <div class="grab"></div>
+  <div class="sheet-h"><h3 id="settingsTitle">Einstellungen</h3><button class="icon-btn" type="button" data-act="close" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+
+  <div class="ai-status" id="aiStatus"></div>
+
+  <div class="sheet-section">
+    <span class="lbl">Profile · one per person</span>
+    <div class="prof-list" id="profList"></div>
+    <form class="custom" id="profForm">
+      <input id="profName" type="text" maxlength="30" placeholder="Neues Profil, z. B. Anna" aria-label="Name für ein neues Profil">
+      <button class="btn" type="submit">Hinzufügen</button>
+    </form>
+  </div>
+
+  <div class="sheet-section">
+    <span class="lbl">Stimme &amp; Anzeige</span>
+    <div class="set-col">
+      <label for="voiceSel"><b>Stimme</b> <span class="en">Voice</span></label>
+      <select id="voiceSel"></select>
+      <span class="d" id="voiceNote"></span>
+      <button class="btn sm" type="button" data-act="test-voice" style="align-self:flex-start">Probehören</button>
+    </div>
+    <div class="set-col">
+      <label for="rateIn"><b>Sprechtempo</b> <span class="en" id="rateOut">0,95×</span></label>
+      <input id="rateIn" type="range" min="0.6" max="1.25" step="0.05" value="0.95">
+    </div>
+    <div class="set-row"><div><label for="autoSpeak">Antworten vorlesen</label><span class="d">Read Lotte's replies aloud automatically</span></div><input class="switch" type="checkbox" id="autoSpeak"></div>
+    <div class="set-row"><div><label for="showEn">Übersetzung zeigen</label><span class="d">Off: the English is blurred until you tap it</span></div><input class="switch" type="checkbox" id="showEn"></div>
+    <div class="set-row"><div><span class="t">Erklärungen</span><span class="d">Language of the correction notes</span></div><div class="seg" data-setting="explain"><button type="button" data-val="en">English</button><button type="button" data-val="de">Deutsch</button></div></div>
+    <div class="set-row"><div><span class="t">Umgangssprache</span><span class="d">How much slang and idioms Lotte uses</span></div><div class="seg" data-setting="slang"><button type="button" data-val="low">wenig</button><button type="button" data-val="normal">normal</button><button type="button" data-val="high">viel</button></div></div>
+    <div class="set-row"><div><label for="autoSend">Nach dem Sprechen senden</label><span class="d">Send automatically when the mic stops</span></div><input class="switch" type="checkbox" id="autoSend"></div>
+  </div>
+
+  <div class="sheet-section">
+    <span class="lbl">Sicherung · backup</span>
+    <div class="set-col">
+      <span class="d">Dein Fortschritt liegt nur in diesem Browser. Speichere ab und zu eine Sicherung, z. B. in iCloud Drive. Damit kannst du auch auf ein anderes Gerät umziehen.<span class="en" style="display:block">Progress lives only in this browser. Save a backup now and then; you can also load it on another device. Keys are not included.</span></span>
+      <div class="btn-row">
+        <button class="btn sm" type="button" data-act="export">Sicherung speichern</button>
+        <button class="btn sm" type="button" data-act="import">Sicherung laden</button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+      </div>
+      <div class="import-confirm" id="importConfirm" hidden></div>
+    </div>
+    <div class="set-col">
+      <button class="btn sm ghost danger" type="button" data-act="wipe" id="wipeBtn" style="align-self:flex-start">Alle Daten auf diesem Gerät löschen</button>
+    </div>
+  </div>
+  <p class="store-note" id="storeNote"></p>
+</div>
+
+<div class="sheet" id="addSheet" role="dialog" aria-modal="true" aria-labelledby="addTitle" hidden>
+  <div class="grab"></div>
+  <div class="sheet-h"><h3 id="addTitle">Eintrag hinzufügen</h3><button class="icon-btn" type="button" data-act="close" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <form class="form" id="addForm">
+    <label>Deutsch<input id="addDe" required lang="de" placeholder="z. B. Das ist nicht mein Bier."></label>
+    <label>English<input id="addEn" placeholder="e.g. That's not my problem."></label>
+    <label>Art<select id="addKind"><option value="word">Wort</option><option value="phrase">Wendung</option><option value="idiom">Redewendung</option><option value="slang">Slang</option><option value="sentence" selected>Satz</option></select></label>
+    <label>Notiz<input id="addNote" placeholder="optional"></label>
+    <button class="btn primary" type="submit">Speichern</button>
+  </form>
+</div>
+
+<div class="sheet" id="cardsSheet" role="dialog" aria-modal="true" aria-labelledby="cardsTitle" hidden>
+  <div class="grab"></div>
+  <div class="sheet-h"><h3 id="cardsTitle">Karteikarten</h3><button class="icon-btn" type="button" data-act="close" aria-label="Schließen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="fc" id="fc"></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clone = o => JSON.parse(JSON.stringify(o));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const pad = n => String(n).padStart(2, '0');
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const norm = s => String(s || '').trim().toLowerCase().replace(/\s+/g, ' ').replace(/[.!?…]+$/, '');
+const str = v => (typeof v === 'string' ? v.trim() : '');
+
+const NS = 'plauderstunde:v2:';
+const LS = {
+  get(k) { try { return localStorage.getItem(NS + k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(NS + k, v); return true; } catch (e) { return false; } },
+  del(k) { try { localStorage.removeItem(NS + k); } catch (e) {} },
+  json(k, fallback) { try { const v = localStorage.getItem(NS + k); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; } }
+};
+
+const ICON = {
+  speaker: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>',
+  bookmark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v16l-5-3.5L7 20z"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+  stop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/></svg>'
+};
+
+const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+const LEVEL_INFO = {
+  A1: { de: 'Einstieg', en: 'Beginner', desc: 'Kurze, einfache Sätze im Präsens. Short simple sentences.', rule: 'Use very short, simple sentences (max 8 words), present tense, only the most common words. 1–2 sentences.' },
+  A2: { de: 'Grundlagen', en: 'Elementary', desc: 'Alltag, Perfekt, einfache Wendungen. Everyday routines and the past tense.', rule: 'Short sentences, present tense and Perfekt, everyday phrases, a very easy idiom only occasionally. 2–3 sentences.' },
+  B1: { de: 'Mittelstufe', en: 'Intermediate', desc: 'Meinungen begründen mit weil, dass, wenn. Opinions and reasons.', rule: 'Fluent everyday German with subordinate clauses (weil, dass, wenn, obwohl), Präteritum of common verbs, common idioms. 2–4 sentences.' },
+  B2: { de: 'Selbstständig', en: 'Upper intermediate', desc: 'Natürliches Gespräch, Konjunktiv II, Redewendungen. Natural conversation.', rule: 'Natural spoken German: Konjunktiv II, Passiv, modal particles (doch, mal, halt, eben), Umgangssprache and idioms. 2–4 sentences.' },
+  C1: { de: 'Fortgeschritten', en: 'Advanced', desc: 'Nuancen, Register, Berlinerisch. Nuance and register.', rule: 'Nuanced, idiomatic German with varied register, Redewendungen, modal particles and occasional regional colour such as Berlinerisch. 2–5 sentences.' },
+  C2: { de: 'Muttersprachlich', en: 'Near-native', desc: 'Ironie, Wortspiele, Tempo wie Muttersprachler. Native speed.', rule: 'Native speed and density: irony, wordplay, slang and cultural references; also correct subtle stylistic issues. 2–5 sentences.' }
+};
+const CATS = { Artikel: 'articles & gender', Kasus: 'cases', Wortstellung: 'word order', Verbform: 'verb forms', 'Präposition': 'prepositions', Wortwahl: 'word choice', Rechtschreibung: 'spelling & capitals', Zeitform: 'tenses', Reflexiv: 'reflexive verbs', Ausdruck: 'natural phrasing' };
+const KINDS = { word: 'Wort', phrase: 'Wendung', idiom: 'Redewendung', slang: 'Slang', grammar: 'Grammatik', sentence: 'Satz' };
+const GROUPS = { Alltag: 'Alltag', Berlin: 'Berlin', Arbeit: 'Arbeit & IT', Freizeit: 'Freizeit', 'Prüfung': 'Prüfung', Frei: 'Frei' };
+
+const SCENES = [
+  { id: 'kaffee', g: 'Alltag', de: 'Kaffeeküche im Büro', en: 'Small talk with a colleague', min: 0, desc: 'You are a friendly colleague meeting the learner in the office kitchen on a weekday. Small talk about the weekend, work, coffee, the weather.' },
+  { id: 'kochen', g: 'Alltag', de: 'Zusammen kochen', en: 'Cooking dinner with a friend', min: 0, desc: 'You and the learner cook dinner together. Hand out and ask for kitchen tasks, and talk about recipes from your home countries.' },
+  { id: 'restaurant', g: 'Alltag', de: 'Im Restaurant', en: 'Ordering and paying', min: 0, desc: 'You are a waiter in a Berlin restaurant. Take the order, handle special requests and the bill (zusammen oder getrennt?).' },
+  { id: 'arzt', g: 'Alltag', de: 'Beim Hausarzt', en: 'Describing symptoms', min: 1, desc: 'You are the receptionist and then the doctor at a GP practice. The learner describes symptoms and asks for a Krankschreibung.' },
+  { id: 'reklamation', g: 'Alltag', de: 'Reklamation im Laden', en: 'Returning a faulty product', min: 2, desc: 'You are a slightly stubborn shop assistant. The learner wants to return a faulty product without the receipt.' },
+  { id: 'nachbar', g: 'Alltag', de: 'Der Nachbar klingelt', en: 'A neighbour complains about noise', min: 2, desc: 'You are a grumpy but fair neighbour who rings the doorbell to complain about noise last night. Resolve it politely.' },
+  { id: 'spaeti', g: 'Berlin', de: 'Am Späti', en: 'Chat at the late-night shop', min: 0, desc: 'You run a Späti in Berlin and chat casually with the learner who is buying drinks. Relaxed Berlin tone.' },
+  { id: 'sbahn', g: 'Berlin', de: 'S-Bahn-Chaos', en: 'Delays and replacement buses', min: 1, desc: 'The S-Bahn is delayed and there is Schienenersatzverkehr. You are a fellow commuter on the platform; together you work out how to get to work.' },
+  { id: 'flohmarkt', g: 'Berlin', de: 'Flohmarkt am Mauerpark', en: 'Haggling at a flea market', min: 1, desc: 'You sell vintage things at the Mauerpark flea market on a Sunday. The learner haggles. Be playful.' },
+  { id: 'wg', g: 'Berlin', de: 'WG-Casting', en: 'Interview for a flat-share room', min: 1, desc: 'You live in a Berlin WG and interview the learner as a possible new flatmate: habits, Putzplan, hobbies.' },
+  { id: 'buergeramt', g: 'Berlin', de: 'Termin beim Bürgeramt', en: 'Registering an address', min: 2, desc: 'You are a clerk at the Bürgeramt. The learner registers a new address (Anmeldung). Ask for documents; be bureaucratic but kind.' },
+  { id: 'it', g: 'Arbeit', de: 'IT-Support-Hotline', en: 'A colleague reports a problem', min: 2, desc: 'You are a stressed colleague calling IT support; the learner is the IT person. Your VPN or printer does not work. The learner must ask questions and explain the steps.' },
+  { id: 'bewerbung', g: 'Arbeit', de: 'Vorstellungsgespräch', en: 'Job interview', min: 2, desc: 'You are a hiring manager interviewing the learner for an IT job in Berlin. Classic interview questions in the Sie-Form.' },
+  { id: 'meeting', g: 'Arbeit', de: 'Team-Meeting', en: 'Updates and polite disagreement', min: 3, desc: 'You lead a weekly team meeting. Ask the learner for a project update, push back a little and agree on next steps. Business register.' },
+  { id: 'fahrstunde', g: 'Freizeit', de: 'Fahrstunde', en: 'A driving lesson in Berlin', min: 1, desc: 'You are a calm driving instructor during a lesson in Berlin traffic. Give directions, comment on the driving and explain rules such as rechts vor links.' },
+  { id: 'schwimmbad', g: 'Freizeit', de: 'Im Schwimmbad', en: 'At the swimming pool', min: 0, desc: 'You are a friendly regular at a Berlin public pool chatting with the learner at the edge of the pool and later in the café.' },
+  { id: 'party', g: 'Freizeit', de: 'Geburtstagsparty', en: 'Small talk at a party', min: 1, desc: 'You are a guest at a friend\'s birthday party meeting the learner for the first time: small talk, jokes, how you know the host.' },
+  { id: 'reise', g: 'Freizeit', de: 'Wochenendtrip planen', en: 'Planning a weekend trip', min: 1, desc: 'You and the learner plan a weekend trip from Berlin (Ostsee, Sächsische Schweiz, Hamburg …). Discuss options, budget and transport.' },
+  { id: 'telc-planen', g: 'Prüfung', de: 'telc B2: Gemeinsam planen', en: 'Exam task: plan something together', min: 2, desc: 'Simulate telc B2 Sprechen Teil 3 (gemeinsam etwas planen): you are the exam partner planning a farewell party for a colleague. Make suggestions, react, agree and disagree.' },
+  { id: 'telc-diskussion', g: 'Prüfung', de: 'telc B2: Diskussion', en: 'Exam task: discuss a statement', min: 2, desc: 'Simulate telc B2 Sprechen Teil 2: discuss a controversial statement such as "Homeoffice für alle?". Take the opposite side and ask for arguments and examples.' },
+  { id: 'debatte', g: 'Prüfung', de: 'Debatte: Pro & Contra', en: 'Argue a position', min: 4, desc: 'A C1-level debate on a current social topic. Challenge the learner\'s arguments with nuance.' },
+  { id: 'frei', g: 'Frei', de: 'Freies Gespräch', en: 'Talk about anything', min: 0, desc: 'A free, natural conversation as a curious friend. You choose interesting topics and switch when one runs dry.' }
+];
+
+/* ---------- state ---------- */
+function defaultProfile() {
+  return {
+    v: 2, level: 'B2',
+    settings: { rate: 0.95, autoSpeak: true, showEn: true, explain: 'en', slang: 'normal', autoSend: false },
+    stats: { msgs: 0, words: 0, perfect: 0, errors: 0, scenes: 0 },
+    cats: {}, days: {}, lastScene: '', created: Date.now()
+  };
+}
+function mergeProfile(p) {
+  const d = defaultProfile();
+  if (!p || typeof p !== 'object') return d;
+  const out = Object.assign({}, d, p);
+  out.settings = Object.assign({}, d.settings, p.settings || {});
+  out.stats = Object.assign({}, d.stats, p.stats || {});
+  out.cats = Object.assign({}, p.cats || {});
+  out.days = Object.assign({}, p.days || {});
+  if (!LEVELS.includes(out.level)) out.level = 'B2';
+  return out;
+}
+
+const state = {
+  view: 'chat', profile: defaultProfile(), saved: [], sessions: [], session: null,
+  busy: false, ctl: null, errorCard: null, filter: 'all', query: '', pendingImport: null
+};
+const local = { voiceURI: LS.get('voice') || '', hintSeen: LS.get('hint') === '1' };
+const isStandalone = () => (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+
+/* ---------- profiles (one per person on this device) ---------- */
+const Profiles = {
+  list: [], activeId: '',
+  load() {
+    const raw = LS.json('profiles', []);
+    this.list = Array.isArray(raw) ? raw.filter(p => p && typeof p.id === 'string' && p.id) : [];
+    if (!this.list.length) { this.list = [{ id: 'p' + uid(), name: 'Ich', createdAt: Date.now() }]; this.save(); }
+    const a = LS.get('active');
+    this.activeId = this.list.some(p => p.id === a) ? a : this.list[0].id;
+    LS.set('active', this.activeId);
+  },
+  save() { LS.set('profiles', JSON.stringify(this.list)); },
+  active() { return this.list.find(p => p.id === this.activeId) || this.list[0]; },
+  add(name) { const p = { id: 'p' + uid(), name, createdAt: Date.now() }; this.list.push(p); this.save(); return p; },
+  levelOf(id) {
+    if (id === this.activeId) return state.profile.level;
+    const d = LS.json('data:' + id, null);
+    return d && d.profile && LEVELS.includes(d.profile.level) ? d.profile.level : 'B2';
+  }
+};
+
+/* ---------- storage: this browser only ---------- */
+const Store = {
+  warned: false,
+  load() {
+    const d = LS.json('data:' + Profiles.activeId, null);
+    state.profile = mergeProfile(d && d.profile);
+    state.saved = (d && Array.isArray(d.saved)) ? d.saved : [];
+    state.sessions = (d && Array.isArray(d.sessions)) ? d.sessions.filter(s => s && Array.isArray(s.turns)) : [];
+  },
+  persist() {
+    const key = NS + 'data:' + Profiles.activeId;
+    let sessions = state.sessions.slice(0, 12);
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        localStorage.setItem(key, JSON.stringify({ profile: state.profile, saved: state.saved, sessions }));
+        return true;
+      } catch (e) {
+        sessions = sessions.slice(0, attempt === 0 ? 4 : 1).map(s => Object.assign({}, s, { turns: s.turns.slice(-24) }));
+      }
+    }
+    if (!this.warned) { this.warned = true; toast('Speicher voll. Speichere eine Sicherung und lösch alte Einträge.'); }
+    return false;
+  },
+  saveProfile() { this.persist(); },
+  saveSession(s) {
+    s.updatedAt = Date.now();
+    const i = state.sessions.findIndex(x => x.id === s.id);
+    if (i >= 0) state.sessions.splice(i, 1);
+    state.sessions.unshift(clone(s));
+    if (state.sessions.length > 12) state.sessions.length = 12;
+    this.persist();
+  },
+  addSaved(item) { state.saved.unshift(item); onSavedChanged(); this.persist(); },
+  removeSaved(id) { state.saved = state.saved.filter(x => x.id !== id); onSavedChanged(); this.persist(); },
+  updateSaved(id, patch) { const it = state.saved.find(x => x.id === id); if (it) Object.assign(it, patch); this.persist(); }
+};
+
+/* ---------- AI: Google Gemini (free) or Anthropic Claude (paid), called straight from this page ---------- */
+const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
+const GEMINI_FALLBACK = ['gemini-flash-lite-latest', 'gemini-flash-latest', 'gemini-2.5-flash-lite', 'gemini-2.5-flash'];
+const AI = {
+  cfg: Object.assign({ provider: 'gemini', geminiKey: '', geminiModel: '', geminiModels: [], claudeKey: '', claudeModel: 'claude-haiku-5-5' }, LS.json('ai', {})),
+  save() { LS.set('ai', JSON.stringify(this.cfg)); },
+  ready() { return this.cfg.provider === 'claude' ? !!this.cfg.claudeKey : !!this.cfg.geminiKey; },
+  label() {
+    if (this.cfg.provider === 'claude') return 'Claude · ' + (this.cfg.claudeModel === 'claude-sonnet-5-5' ? 'Sonnet 5.5' : 'Haiku 5.5');
+    return 'Gemini · ' + (this.cfg.geminiModel || 'automatisch');
+  },
+
+  async listGemini(key) {
+    let res, data = null;
+    try { res = await fetch(GEMINI_BASE + '/models?pageSize=1000', { headers: { 'x-goog-api-key': key } }); }
+    catch (e) { throw { code: 'network', message: String(e && e.message || e) }; }
+    try { data = await res.json(); } catch (e) {}
+    if (!res.ok) throw geminiError(res.status, data);
+    return rankGeminiModels((data && data.models) || []);
+  },
+
+  async geminiCall(model, system, messages, opts) {
+    const body = {
+      contents: messages.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
+      generationConfig: { temperature: opts.temperature == null ? 0.7 : opts.temperature }
+    };
+    if (system) body.systemInstruction = { parts: [{ text: system }] };
+    if (opts.json !== false) body.generationConfig.responseMimeType = 'application/json';
+    const send = async b => {
+      let res, data = null;
+      try {
+        res = await fetch(GEMINI_BASE + '/models/' + encodeURIComponent(model) + ':generateContent', {
+          method: 'POST', signal: opts.signal,
+          headers: { 'content-type': 'application/json', 'x-goog-api-key': this.cfg.geminiKey },
+          body: JSON.stringify(b)
+        });
+      } catch (e) {
+        if (e && e.name === 'AbortError') throw { code: 'cancelled' };
+        throw { code: 'network', message: String(e && e.message || e) };
+      }
+      try { data = await res.json(); } catch (e) {}
+      if (!res.ok) throw geminiError(res.status, data);
+      return data;
+    };
+    let data;
+    try { data = await send(body); }
+    catch (e) {
+      if (e.code === 'bad_request' && body.generationConfig.responseMimeType) {
+        delete body.generationConfig.responseMimeType;
+        data = await send(body);
+      } else throw e;
+    }
+    const cand = data && data.candidates && data.candidates[0];
+    if (!cand) {
+      if (data && data.promptFeedback && data.promptFeedback.blockReason) throw { code: 'refused' };
+      throw { code: 'empty' };
+    }
+    const text = ((cand.content && cand.content.parts) || []).filter(p => !p.thought).map(p => p.text || '').join('');
+    if (!text.trim()) {
+      if (/SAFETY|PROHIBITED|BLOCKLIST|SPII/.test(cand.finishReason || '')) throw { code: 'refused' };
+      throw { code: 'empty' };
+    }
+    return text;
+  },
+
+  async claudeCall(system, messages, opts) {
+    let res, data = null;
+    try {
+      res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST', signal: opts.signal,
+        headers: {
+          'content-type': 'application/json',
+          'x-api-key': opts.key || this.cfg.claudeKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: opts.model || this.cfg.claudeModel,
+          max_tokens: opts.maxTokens || 1800,
+          temperature: opts.temperature == null ? 0.7 : opts.temperature,
+          system: system || undefined,
+          messages
+        })
+      });
+    } catch (e) {
+      if (e && e.name === 'AbortError') throw { code: 'cancelled' };
+      throw { code: 'network', message: String(e && e.message || e) };
+    }
+    try { data = await res.json(); } catch (e) {}
+    if (!res.ok) {
+      const msg = (data && data.error && data.error.message) || ('HTTP ' + res.status);
+      let code = 'upstream';
+      if (res.status === 401 || res.status === 403) code = 'bad_key';
+      else if (res.status === 404) code = 'no_model';
+      else if (res.status === 429) code = 'quota';
+      else if (res.status === 400 && /credit|balance|billing/i.test(msg)) code = 'billing';
+      else if (res.status === 400) code = 'bad_request';
+      throw { code, message: msg };
+    }
+    if (data && data.stop_reason === 'refusal') throw { code: 'refused' };
+    const text = ((data && data.content) || []).filter(b => b.type === 'text').map(b => b.text).join('');
+    if (!text.trim()) throw { code: 'empty' };
+    return text;
+  },
+
+  /** Ask for a JSON object. `messages` alternate user/assistant and end on a user turn. */
+  async json(system, messages, opts = {}) {
+    if (!this.ready()) throw { code: 'no_key' };
+    const msgs = tidyMessages(messages);
+    if (this.cfg.provider === 'claude') return parseJSON(await this.claudeCall(system, msgs, opts));
+    const known = (this.cfg.geminiModels && this.cfg.geminiModels.length) ? this.cfg.geminiModels : GEMINI_FALLBACK;
+    const first = this.cfg.geminiModel || known[0];
+    const order = [first, ...known.filter(m => m !== first)].slice(0, 3);
+    let lastErr = null;
+    for (let i = 0; i < order.length; i++) {
+      try {
+        const text = await this.geminiCall(order[i], system, msgs, opts);
+        if (i > 0) { this.cfg.geminiModel = order[i]; this.save(); toast('Limit erreicht – Lotte nutzt jetzt ' + order[i]); }
+        return parseJSON(text);
+      } catch (e) {
+        lastErr = e;
+        if ((e.code === 'quota' || e.code === 'no_model') && i < order.length - 1) continue;
+        throw e;
+      }
+    }
+    throw lastErr || { code: 'upstream' };
+  }
+};
+
+function geminiError(status, d) {
+  const err = d && d.error;
+  const msg = (err && err.message) || ('HTTP ' + status);
+  const st = (err && err.status) || '';
+  let code = 'upstream';
+  if (status === 429 || st === 'RESOURCE_EXHAUSTED') code = 'quota';
+  else if (/location is not supported|not available in your country|User location/i.test(msg)) code = 'region';
+  else if (/api[ _-]?key/i.test(msg) || status === 401 || status === 403) code = 'bad_key';
+  else if (status === 404 || st === 'NOT_FOUND') code = 'no_model';
+  else if (status === 400) code = 'bad_request';
+  return { code, message: msg, status };
+}
+
+function rankGeminiModels(models) {
+  const bad = /(tts|image|live|audio|vision|embedding|robotics|transcribe|translate|thinking|exp|8b|learnlm|computer)/i;
+  const names = models
+    .filter(m => m && typeof m.name === 'string' && (m.supportedGenerationMethods || []).includes('generateContent'))
+    .map(m => m.name.replace(/^models\//, ''))
+    .filter(n => /^gemini-/.test(n) && /flash/.test(n) && !bad.test(n));
+  const ver = n => { const m = /^gemini-(\d+(?:\.\d+)?)/.exec(n); return m ? parseFloat(m[1]) : 0; };
+  const isLite = n => /flash-lite/.test(n);
+  const isPreview = n => /preview/.test(n);
+  const isAlias = n => /latest/.test(n);
+  const rank = n => (isLite(n) ? 0 : 1000) + (isAlias(n) ? 500 : 0) + (isPreview(n) ? 100 : 0) - ver(n);
+  return [...new Set(names)].sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+}
+
+function tidyMessages(messages) {
+  const out = [];
+  for (const m of messages) {
+    const content = String(m.content || '').trim();
+    if (!content) continue;
+    const role = m.role === 'assistant' ? 'assistant' : 'user';
+    if (out.length && out[out.length - 1].role === role) out[out.length - 1].content += '\n\n' + content;
+    else out.push({ role, content });
+  }
+  if (!out.length || out[0].role !== 'user') out.unshift({ role: 'user', content: '(The scene begins.)' });
+  if (out[out.length - 1].role !== 'user') out.push({ role: 'user', content: '(The learner is waiting. Continue.)' });
+  return out;
+}
+
+function parseJSON(text) {
+  let t = String(text || '').trim();
+  const fence = /```(?:json)?\s*([\s\S]*?)```/i.exec(t);
+  if (fence) t = fence[1].trim();
+  try { return JSON.parse(t); } catch (e) {}
+  const a = t.indexOf('{'), b = t.lastIndexOf('}');
+  if (a >= 0 && b > a) { try { return JSON.parse(t.slice(a, b + 1)); } catch (e) {} }
+  throw { code: 'invalid_json', message: t.slice(0, 200) };
+}
+
+/* ---------- prompts ---------- */
+function recentVocab(n) {
+  const out = [];
+  const turns = state.session ? state.session.turns : [];
+  for (let i = turns.length - 1; i >= 0 && out.length < n; i--) {
+    const t = turns[i];
+    if (t.r === 't' && Array.isArray(t.vocab)) t.vocab.forEach(v => { if (v.de && out.length < n) out.push(v.de); });
+  }
+  for (const s of state.saved) { if (out.length >= n + 20) break; if (s.kind !== 'sentence') out.push(s.de); }
+  return [...new Set(out)];
+}
+
+function buildRules(s) {
+  const P = state.profile, st = P.settings, lv = P.level, L = LEVEL_INFO[lv];
+  const slang = {
+    low: 'Use standard spoken German; only very common colloquial words.',
+    normal: 'Mix in everyday Umgangssprache, modal particles and a common idiom now and then, the way native speakers really talk.',
+    high: 'Use plenty of authentic colloquial German: slang, Jugendsprache, Berlinerisch (ick, det, wat), idioms and fillers (na, ne?, krass, Alter) where they fit, and explain them in vocab.'
+  }[st.slang] || '';
+  const explain = st.explain === 'de'
+    ? 'Write the "why" and "note" fields in simple German suited to the level, each followed by a very short English gloss in brackets.'
+    : 'Write the "why" and "note" fields in clear, short English (max 25 words), naming the rule with its German grammar term.';
+  const focus = s.focus ? '\nGRAMMAR FOCUS: steer the conversation so the learner often has to use ' + s.focus + ' (' + (CATS[s.focus] || '') + ') and check it with extra care.' : '';
+  const taught = recentVocab(40).join('; ');
+  return 'You are Lotte, a warm, witty German conversation tutor in a speaking-practice app. The learner is an adult living in Berlin who wants to speak natural everyday German. Everything you write in "reply" is read aloud by text-to-speech.\n\n'
+    + 'LEVEL ' + lv + ' (' + L.en + '): ' + L.rule + ' Adapt vocabulary, grammar and length to this level. If the learner clearly struggles, simplify; if it is too easy, stretch them a little.\n'
+    + 'COLLOQUIAL STYLE: ' + slang + '\n'
+    + 'SCENE: ' + s.title + ' — ' + s.desc + focus + '\n\n'
+    + 'HOW TO REPLY\n'
+    + '- Stay in role and keep the conversation moving: react to what the learner said, add something of your own, and end with a question or prompt so they always have something to answer.\n'
+    + '- When the scene reaches a natural end, move smoothly to a related new situation. Never end the conversation.\n'
+    + '- "reply" is spoken German only: no English, no emojis, no markdown, no stage directions.\n'
+    + '- If the learner writes English or asks how to say something or what a word means, answer briefly in "correction" with status "question" and continue the scene in "reply".\n\n'
+    + "CORRECTING THE LEARNER'S LAST MESSAGE\n"
+    + '- Check it carefully: articles and gender, cases, word order (verb second, verb-final in subordinate clauses, separable verbs), verb forms, tenses, prepositions, reflexive verbs, noun capitalisation and spelling, word choice, anglicisms and unnatural phrasing.\n'
+    + '- The text may come from speech-to-text: ignore missing punctuation and obvious dictation glitches.\n'
+    + '- List only real mistakes in "items". If the message is correct but a native speaker would put it differently, use status "perfect" and give the native version in "natural".\n'
+    + '- ' + explain + '\n\n'
+    + 'OUTPUT: reply with ONE JSON object only, no other text, with the fields in this order:\n'
+    + '{"reply": string, "replyEn": string (English translation of reply), "setting": string (only on the opening turn, otherwise ""), '
+    + '"correction": null or {"status": "perfect" | "errors" | "question", "corrected": string (the learner\'s whole message corrected; for "question" the German answer; "" if perfect), "correctedEn": string (English meaning of corrected), "natural": string (a more native way to say it, or ""), '
+    + '"items": [{"wrong": string (exact fragment from the learner), "right": string, "why": string, "category": one of ' + Object.keys(CATS).join(', ') + '}], "praise": string (max 8 German words of honest encouragement)}, '
+    + '"vocab": [0 to 3 items {"de": string, "en": string, "kind": "word" | "phrase" | "idiom" | "slang" | "grammar", "note": string (short usage note)}], '
+    + '"tip": string (a short fun fact about German or life in Germany/Berlin, in English, max 25 words; include it on about one turn in three, otherwise "")}\n'
+    + 'For vocab choose level-appropriate expressions you used in your reply or that the learner will need next; from B1 upwards regularly include idioms or colloquial expressions. Do not repeat these already-taught items: ' + (taught || 'none yet') + '.';
+}
+
+function buildInput(s, opening) {
+  const system = buildRules(s);
+  if (opening) {
+    return { system, messages: [{ role: 'user', content: 'START NOW: open the scene with your first in-character line. Put a one-sentence English description of the scene and your role in "setting". Set "correction" to null. Reply with the JSON object only.' }] };
+  }
+  const messages = [];
+  for (const t of s.turns.slice(-18)) {
+    if (t.r === 't') messages.push({ role: 'assistant', content: t.reply });
+    else messages.push({ role: 'user', content: 'Learner: ' + t.text });
+  }
+  if (!messages.length || messages[messages.length - 1].role !== 'user') messages.push({ role: 'user', content: '(The learner is waiting. Continue the scene.)' });
+  messages[messages.length - 1].content += '\n\n(Reply with the JSON object only, as specified.)';
+  return { system, messages };
+}
+
+function normalizeTutor(raw, learnerText) {
+  const o = (raw && typeof raw === 'object' && !Array.isArray(raw)) ? raw : {};
+  const t = { r: 't', id: uid(), ts: Date.now(), reply: str(o.reply), replyEn: str(o.replyEn), setting: str(o.setting), tip: str(o.tip), vocab: [], correction: null };
+  if (Array.isArray(o.vocab)) {
+    t.vocab = o.vocab.filter(v => v && str(v.de)).slice(0, 4).map(v => ({
+      de: str(v.de), en: str(v.en), kind: KINDS[v.kind] ? v.kind : 'phrase', note: str(v.note)
+    }));
+  }
+  const c = o.correction;
+  if (c && typeof c === 'object' && learnerText != null) {
+    const items = Array.isArray(c.items) ? c.items.filter(it => it && (str(it.wrong) || str(it.right))).map(it => ({
+      wrong: str(it.wrong), right: str(it.right), why: str(it.why), category: CATS[it.category] ? it.category : 'Ausdruck'
+    })).filter(it => norm(it.wrong) !== norm(it.right)) : [];
+    let status = ['perfect', 'errors', 'question'].includes(c.status) ? c.status : (items.length ? 'errors' : 'perfect');
+    if (status === 'errors' && !items.length) status = 'perfect';
+    if (status === 'perfect' && items.length) status = 'errors';
+    t.correction = { status, corrected: str(c.corrected), correctedEn: str(c.correctedEn), natural: str(c.natural), items, praise: str(c.praise) };
+    if (status === 'perfect') t.correction.corrected = '';
+  }
+  return t;
+}
+
+/* ---------- progress ---------- */
+function recordExchange(text, corr) {
+  const P = state.profile, k = dayKey();
+  const d = P.days[k] || (P.days[k] = { m: 0, p: 0, e: 0 });
+  d.m++; P.stats.msgs++;
+  P.stats.words += String(text).trim().split(/\s+/).filter(Boolean).length;
+  if (corr) {
+    if (corr.status === 'perfect') { d.p++; P.stats.perfect++; }
+    if (corr.status === 'errors') {
+      d.e += corr.items.length; P.stats.errors += corr.items.length;
+      corr.items.forEach(it => { P.cats[it.category] = (P.cats[it.category] || 0) + 1; });
+    }
+  }
+  const keys = Object.keys(P.days).sort();
+  while (keys.length > 200) delete P.days[keys.shift()];
+  Store.saveProfile();
+}
+function streak() {
+  const days = state.profile.days;
+  const d = new Date();
+  if (!(days[dayKey(d)] && days[dayKey(d)].m)) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (days[dayKey(d)] && days[dayKey(d)].m > 0) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+function lastDays(n) {
+  const out = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const v = state.profile.days[dayKey(d)] || { m: 0, p: 0, e: 0 };
+    out.push({ d, m: v.m || 0, p: v.p || 0, e: v.e || 0 });
+  }
+  return out;
+}
+
+/* ---------- speech out ---------- */
+const TTS = {
+  ok: typeof window.speechSynthesis !== 'undefined' && typeof window.SpeechSynthesisUtterance !== 'undefined',
+  voices: [], voice: null, key: null, unlocked: false,
+  load() {
+    if (!this.ok) { renderVoiceSelect(); return; }
+    let all = [];
+    try { all = speechSynthesis.getVoices() || []; } catch (e) {}
+    this.voices = all.filter(v => /^de([-_]|$)/i.test(v.lang));
+    const pref = local.voiceURI && this.voices.find(v => v.voiceURI === local.voiceURI);
+    this.voice = pref || this.pickDefault();
+    renderVoiceSelect();
+  },
+  pickDefault() {
+    const names = ['Google Deutsch', 'Anna', 'Helena', 'Katja', 'Petra', 'Marlene', 'Vicki', 'Hedda'];
+    for (const n of names) { const v = this.voices.find(x => x.name.indexOf(n) >= 0); if (v) return v; }
+    return this.voices.find(v => /de[-_]DE/i.test(v.lang)) || this.voices[0] || null;
+  },
+  unlock() {
+    if (!this.ok || this.unlocked) return;
+    this.unlocked = true;
+    try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); } catch (e) {}
+  },
+  stop() {
+    if (this.ok) { try { speechSynthesis.cancel(); } catch (e) {} }
+    this.mark(null);
+  },
+  speak(text, key) {
+    if (!text) return;
+    if (!this.ok) { toast('Vorlesen geht in diesem Browser leider nicht.'); return; }
+    this.stop();
+    const parts = (String(text).match(/[^.!?…]+[.!?…]*["»«“”„]?\s*/g) || [text]).map(s => s.trim()).filter(Boolean);
+    this.mark(key || null);
+    parts.forEach((p, i) => {
+      const u = new SpeechSynthesisUtterance(p);
+      u.lang = (this.voice && this.voice.lang) || 'de-DE';
+      if (this.voice) u.voice = this.voice;
+      u.rate = state.profile.settings.rate || 0.95;
+      if (i === parts.length - 1) u.onend = () => { if (this.key === key) this.mark(null); };
+      u.onerror = () => { if (this.key === key) this.mark(null); };
+      try { speechSynthesis.speak(u); } catch (e) {}
+    });
+  },
+  mark(key) {
+    this.key = key;
+    $$('[data-speak-key]').forEach(b => b.classList.toggle('speaking', !!key && b.dataset.speakKey === key));
+  }
+};
+
+/* ---------- speech in (Safari, Chrome, Edge) ---------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const Mic = {
+  rec: null, on: false, blocked: !SR, watch: null, cap: null,
+  toggle() {
+    TTS.unlock(); TTS.stop();
+    if (this.blocked) { showHint(); $('#input').focus(); return; }
+    if (this.on) { try { this.rec.stop(); } catch (e) {} return; }
+    let rec;
+    try {
+      rec = new SR();
+      rec.lang = 'de-DE'; rec.interimResults = true; rec.continuous = false; rec.maxAlternatives = 1;
+    } catch (e) { this.blocked = true; showHint(); $('#input').focus(); return; }
+    const inp = $('#input');
+    const base = inp.value.trim() ? inp.value.trim() + ' ' : '';
+    let heard = '', gotAudio = false;
+    rec.onaudiostart = () => { gotAudio = true; };
+    rec.onresult = e => {
+      gotAudio = true;
+      let t = '';
+      for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
+      heard = t; inp.value = base + t; autosize(); updateComposer();
+    };
+    rec.onerror = e => {
+      if (['not-allowed', 'service-not-allowed', 'audio-capture'].includes(e.error)) { this.blocked = true; showHint(); }
+      else if (e.error === 'no-speech') toast('Ich habe nichts gehört. Nochmal?');
+    };
+    rec.onend = () => {
+      clearTimeout(this.watch); clearTimeout(this.cap);
+      this.on = false; $('#micBtn').classList.remove('on'); $('#micBtn').setAttribute('aria-label', 'Sprechen');
+      if (heard && state.profile.settings.autoSend && !this.blocked) send();
+    };
+    try {
+      rec.start(); this.rec = rec; this.on = true;
+      $('#micBtn').classList.add('on'); $('#micBtn').setAttribute('aria-label', 'Aufnahme beenden');
+      // Some iOS views accept start() and then never deliver audio: give up after a while and point to keyboard dictation.
+      this.watch = setTimeout(() => { if (!gotAudio && this.on) { try { rec.abort(); } catch (e) {} showHint(); } }, 9000);
+      this.cap = setTimeout(() => { if (this.on) { try { rec.stop(); } catch (e) {} } }, 30000);
+    } catch (e) { this.blocked = true; showHint(); $('#input').focus(); }
+  }
+};
+function showHint() { $('#dictHint').hidden = false; }
+
+/* ---------- chat flow ---------- */
+function newSession(sc) {
+  return { id: 's' + uid(), sceneId: sc.id, title: sc.de, titleEn: sc.en, desc: sc.desc, focus: sc.focus || '', level: state.profile.level, startedAt: Date.now(), updatedAt: Date.now(), turns: [] };
+}
+function needSetup() {
+  if (AI.ready()) return false;
+  openAISheet();
+  toast('Richte Lotte zuerst ein – das dauert 2 Minuten.');
+  return true;
+}
+function startScene(sc) {
+  TTS.unlock();
+  if (needSetup()) return;
+  if (state.ctl) { try { state.ctl.abort(); } catch (e) {} }
+  TTS.stop();
+  closeSheets(true);
+  state.session = newSession(sc);
+  state.errorCard = null;
+  state.profile.lastScene = sc.id;
+  hideSuggest();
+  setView('chat');
+  askTutor(true);
+}
+function surprise() {
+  const li = LEVELS.indexOf(state.profile.level);
+  const pool = SCENES.filter(s => s.min <= li && s.id !== state.profile.lastScene && s.id !== 'frei');
+  startScene(pool[Math.floor(Math.random() * pool.length)] || SCENES[0]);
+}
+function focusScene(cat) {
+  startScene({ id: 'focus-' + cat, g: 'Frei', de: 'Fokus: ' + cat, en: 'Practise ' + (CATS[cat] || cat), focus: cat, desc: 'A relaxed everyday conversation (you pick a fun situation and state it in "setting") designed so the learner must use ' + (CATS[cat] || cat) + ' a lot.' });
+}
+
+function send() {
+  const inp = $('#input');
+  const text = inp.value.trim();
+  if (!text || state.busy) return;
+  TTS.unlock();
+  if (needSetup()) return;
+  TTS.stop();
+  if (Mic.on) { try { Mic.rec.stop(); } catch (e) {} }
+  if (!state.session) state.session = newSession(SCENES.find(s => s.id === 'frei'));
+  state.errorCard = null;
+  state.session.turns.push({ r: 'l', text, ts: Date.now() });
+  Store.saveSession(state.session);
+  inp.value = ''; autosize(); hideSuggest();
+  renderChat();
+  askTutor(false);
+}
+
+const ERRORS = {
+  cancelled: ['Gestoppt.', 'Stopped.', { retry: true }],
+  no_key: ['Lotte ist noch nicht eingerichtet.', 'Add your free Gemini key first.', { setup: 'Einrichten' }],
+  bad_key: ['Der KI-Schlüssel funktioniert nicht.', 'Check the key or paste a new one.', { setup: 'Schlüssel prüfen' }],
+  quota: ['Das kostenlose Limit ist gerade erreicht.', 'Free limit reached. Wait a minute and try again; the daily limit resets tomorrow morning (about 9:00). You can also pick another model.', { retry: true, setup: 'Modell wechseln' }],
+  region: ['Google erlaubt die Gemini-API an deinem Standort nicht.', 'Gemini is not available where you are. Try Claude instead.', { setup: 'Anbieter wechseln' }],
+  billing: ['Dein Claude-Guthaben ist aufgebraucht.', 'Top up your Anthropic credit, or switch to free Gemini.', { setup: 'Anbieter wechseln' }],
+  no_model: ['Dieses KI-Modell ist nicht verfügbar.', 'Pick another model in the setup.', { setup: 'Modell wechseln' }],
+  network: ['Keine Verbindung.', 'Check your internet connection and try again.', { retry: true }],
+  refused: ['Darauf kann Lotte nicht antworten. Formulier es bitte anders.', "Lotte can't answer that. Try rephrasing.", {}],
+  default: ['Die Antwort kam nicht vollständig an.', 'The reply did not come through completely. Try again.', { retry: true }]
+};
+function errorCard(code, opening, detail) {
+  const e = ERRORS[code] || ERRORS.default;
+  return { msg: e[0], en: e[1] + (detail && !ERRORS[code] ? ' (' + detail + ')' : ''), retry: !!e[2].retry, setup: e[2].setup || '', opening };
+}
+
+async function askTutor(opening) {
+  const s = state.session;
+  if (!s) return;
+  const ctl = new AbortController();
+  state.ctl = ctl; state.busy = true; state.errorCard = null;
+  renderChat(); updateComposer();
+  const learner = opening ? null : [...s.turns].reverse().find(t => t.r === 'l');
+  try {
+    const { system, messages } = buildInput(s, opening);
+    const raw = await AI.json(system, messages, { signal: ctl.signal, temperature: 0.7 });
+    const t = normalizeTutor(raw, learner ? learner.text : null);
+    if (!t.reply) throw { code: 'invalid_json' };
+    if (state.session !== s) return;
+    s.turns.push(t);
+    if (s.turns.length > 70) s.turns.splice(0, s.turns.length - 70);
+    if (opening) { state.profile.stats.scenes++; }
+    else if (learner) recordExchange(learner.text, t.correction);
+    Store.saveSession(s);
+    state.busy = false; state.ctl = null;
+    renderChat();
+    if (state.profile.settings.autoSpeak) TTS.speak(t.reply, 'r' + (s.turns.length - 1));
+  } catch (e) {
+    if (state.session !== s) return;
+    const code = (e && e.code) || 'default';
+    state.errorCard = errorCard(code, opening, e && e.message);
+    if (code !== 'cancelled') console.warn('Lotte call failed', e);
+  } finally {
+    if (state.session === s) { state.busy = false; state.ctl = null; renderChat(); updateComposer(); }
+  }
+}
+
+async function suggest() {
+  const s = state.session;
+  const box = $('#suggest');
+  const lastT = s && [...s.turns].reverse().find(t => t.r === 't');
+  if (!lastT) { toast('Starte zuerst eine Szene.'); return; }
+  if (needSetup()) return;
+  box.hidden = false;
+  box.innerHTML = '<p class="en" style="margin:0">Ideen werden geladen <span class="dots"><i></i><i></i><i></i></span></p>';
+  const lv = state.profile.level;
+  const prompt = 'A German learner at level ' + lv + ' is in a role-play. Scene: ' + s.title + ' — ' + s.desc + '\nThe tutor just said: "' + lastT.reply + '"\n'
+    + 'Suggest 3 different natural replies the learner could say next, written at level ' + lv + ': one short, one medium, one a bit more ambitious'
+    + (['B2', 'C1', 'C2'].includes(lv) ? ' using an idiom or colloquial phrase' : '') + '. Reply with only JSON: {"suggestions":[{"de":"...","en":"..."}]}';
+  try {
+    const res = await AI.json('You help German learners find natural things to say. Reply with JSON only.', [{ role: 'user', content: prompt }], { temperature: 0.9 });
+    const list = (res && Array.isArray(res.suggestions) ? res.suggestions : []).filter(x => x && str(x.de)).slice(0, 3);
+    if (!list.length) throw { code: 'empty' };
+    box.innerHTML = '<span class="lbl">Tippe zum Übernehmen · tap to use</span>' + list.map(x =>
+      '<button class="sug" type="button" data-act="use-sug" data-text="' + esc(x.de) + '"><b lang="de">' + esc(x.de) + '</b><span>' + esc(x.en) + '</span></button>').join('');
+  } catch (e) {
+    const msg = e && e.code === 'quota' ? 'Limit erreicht – versuch es gleich nochmal.' : 'Keine Ideen bekommen. Versuch es gleich nochmal.';
+    box.innerHTML = '<p class="en" style="margin:0">' + msg + '</p>';
+  }
+}
+function hideSuggest() { const b = $('#suggest'); b.hidden = true; b.innerHTML = ''; }
+
+/* ---------- saving ---------- */
+function findSaved(de) { const k = norm(de); return state.saved.find(x => norm(x.de) === k); }
+function toggleSave(item) {
+  const ex = findSaved(item.de);
+  if (ex) { Store.removeSaved(ex.id); toast('Entfernt'); return; }
+  Store.addSaved(Object.assign({ id: 'v' + uid(), createdAt: Date.now(), box: 1, scene: state.session ? state.session.title : '' }, item));
+  toast('Gespeichert');
+}
+function onSavedChanged() {
+  $('#savedCount').textContent = state.saved.length ? String(state.saved.length) : '';
+  $$('[data-savekey]').forEach(b => b.classList.toggle('on', !!findSaved(b.dataset.savekey)));
+  if (state.view === 'saved') renderSaved();
+  if (state.view === 'progress') renderProgress();
+}
+
+/* ---------- rendering: chat ---------- */
+function diffHTML(a, b) {
+  const A = String(a || '').trim().split(/\s+/).slice(0, 80);
+  const B = String(b || '').trim().split(/\s+/).slice(0, 80);
+  const k = w => w.replace(/[.,!?;:„“"»«]+/g, '');
+  const n = A.length, m = B.length;
+  const dp = Array.from({ length: n + 1 }, () => new Array(m + 1).fill(0));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = k(A[i]) === k(B[j]) ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const keep = new Array(m).fill(false);
+  let i = 0, j = 0;
+  while (i < n && j < m) { if (k(A[i]) === k(B[j])) { keep[j] = true; i++; j++; } else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++; }
+  return B.map((w, x) => keep[x] ? esc(w) : '<mark>' + esc(w) + '</mark>').join(' ');
+}
+
+function learnerHTML(t, i) {
+  const nx = state.session.turns[i + 1];
+  const c = nx && nx.r === 't' ? nx.correction : null;
+  let badge = '';
+  if (c) {
+    if (c.status === 'perfect') badge = '<span class="badge ok">Sehr gut!</span>';
+    else if (c.status === 'errors') badge = '<span class="badge err">' + c.items.length + (c.items.length === 1 ? ' Korrektur' : ' Korrekturen') + '</span>';
+    else badge = '<span class="badge q">Frage</span>';
+  }
+  return '<div class="l-wrap"><p class="msg-l" lang="de">' + esc(t.text) + '</p>' + badge + '</div>';
+}
+
+function corrHTML(c, orig, idx) {
+  if (c.status === 'question') {
+    return '<div class="rot q"><p class="rot-h">So sagt man das <small>Answer</small></p>'
+      + (c.corrected ? '<p class="rot-corr" lang="de">' + esc(c.corrected) + '</p>' : '')
+      + (c.correctedEn ? '<p class="t-en">' + esc(c.correctedEn) + '</p>' : '')
+      + c.items.map(it => '<p class="why">' + esc(it.why) + '</p>').join('')
+      + (c.corrected ? '<div class="rot-actions"><button class="btn sm" type="button" data-act="speak-corr" data-idx="' + idx + '" data-speak-key="c' + idx + '">' + ICON.speaker + 'Anhören</button>'
+        + '<button class="btn sm save-btn" type="button" data-act="save-corr" data-idx="' + idx + '" data-savekey="' + esc(c.corrected) + '">' + ICON.bookmark + 'Speichern</button></div>' : '')
+      + '</div>';
+  }
+  if (c.status === 'perfect') {
+    return '<div class="rot ok"><p class="rot-h">Perfekt! <small>No mistakes</small></p>'
+      + (c.natural ? '<p class="natural"><span class="lbl">Noch natürlicher · even more natural</span><span lang="de">' + esc(c.natural) + '</span></p>' : '')
+      + (c.praise ? '<p class="praise">' + esc(c.praise) + '</p>' : '')
+      + '</div>';
+  }
+  const target = c.corrected || '';
+  return '<div class="rot"><p class="rot-h">Rotstift <small>' + c.items.length + (c.items.length === 1 ? ' correction' : ' corrections') + '</small></p>'
+    + (target ? '<p class="rot-corr" lang="de">' + diffHTML(orig, target) + '</p>' : '')
+    + (c.correctedEn ? '<p class="t-en">' + esc(c.correctedEn) + '</p>' : '')
+    + '<ul class="fixes">' + c.items.map(it => '<li><div class="fix-line">'
+      + (it.wrong ? '<s>' + esc(it.wrong) + '</s><span class="arrow">→</span>' : '') + '<b lang="de">' + esc(it.right) + '</b>'
+      + '<span class="cat">' + esc(it.category) + '</span></div>'
+      + (it.why ? '<p class="why">' + esc(it.why) + '</p>' : '') + '</li>').join('') + '</ul>'
+    + (c.natural ? '<p class="natural"><span class="lbl">Noch natürlicher · even more natural</span><span lang="de">' + esc(c.natural) + '</span></p>' : '')
+    + (target ? '<div class="rot-actions"><button class="btn sm" type="button" data-act="speak-corr" data-idx="' + idx + '" data-speak-key="c' + idx + '">' + ICON.speaker + 'Anhören</button>'
+      + '<button class="btn sm save-btn" type="button" data-act="save-corr" data-idx="' + idx + '" data-savekey="' + esc(target) + '">' + ICON.bookmark + 'Satz speichern</button></div>' : '')
+    + (c.praise ? '<p class="praise">' + esc(c.praise) + '</p>' : '')
+    + '</div>';
+}
+
+function tutorHTML(t, i) {
+  const prev = state.session.turns[i - 1];
+  const orig = prev && prev.r === 'l' ? prev.text : '';
+  return '<article class="msg-t">'
+    + '<div class="t-head"><span class="avatar" aria-hidden="true">L</span><span class="t-name">Lotte</span><span class="sp"></span>'
+    + '<button class="icon-btn sm" type="button" data-act="speak" data-idx="' + i + '" data-speak-key="r' + i + '" aria-label="Vorlesen">' + ICON.speaker + '</button>'
+    + '<button class="icon-btn sm" type="button" data-act="save-reply" data-idx="' + i + '" data-savekey="' + esc(t.reply) + '" aria-label="Satz speichern">' + ICON.bookmark + '</button></div>'
+    + (t.setting ? '<p class="t-setting"><span class="lbl">Szene</span>' + esc(t.setting) + '</p>' : '')
+    + '<p class="t-reply" lang="de">' + esc(t.reply) + '</p>'
+    + (t.replyEn ? '<p class="t-en" data-act="reveal">' + esc(t.replyEn) + '</p>' : '')
+    + (t.correction ? corrHTML(t.correction, orig, i) : '')
+    + (t.vocab && t.vocab.length ? '<div class="voc"><span class="lbl">Neu für dich · new for you</span><ul>' + t.vocab.map((v, j) =>
+      '<li><div><span class="voc-de" lang="de">' + esc(v.de) + '</span><span class="kind ' + esc(v.kind) + '">' + esc(KINDS[v.kind] || v.kind) + '</span></div>'
+      + '<div class="voc-en">' + esc(v.en) + '</div>' + (v.note ? '<div class="voc-note">' + esc(v.note) + '</div>' : '')
+      + '<div class="voc-acts"><button class="icon-btn sm" type="button" data-act="speak-voc" data-idx="' + i + '" data-j="' + j + '" data-speak-key="v' + i + '-' + j + '" aria-label="Anhören">' + ICON.speaker + '</button>'
+      + '<button class="icon-btn sm" type="button" data-act="save-voc" data-idx="' + i + '" data-j="' + j + '" data-savekey="' + esc(v.de) + '" aria-label="Speichern">' + ICON.bookmark + '</button></div></li>').join('') + '</ul></div>' : '')
+    + (t.tip ? '<p class="tip"><span class="lbl">Wusstest du? · did you know</span>' + esc(t.tip) + '</p>' : '')
+    + '</article>';
+}
+
+function levelPicks() {
+  const li = LEVELS.indexOf(state.profile.level);
+  const pool = SCENES.filter(s => s.min <= li && s.id !== 'frei');
+  let seed = Number(dayKey().replace(/-/g, ''));
+  const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+  return pool.map(s => [rnd(), s]).sort((a, b) => a[0] - b[0]).slice(0, 4).map(x => x[1]);
+}
+
+function welcomeHTML() {
+  const last = state.sessions[0];
+  let h = '<div class="welcome">'
+    + '<p class="eyebrow">Deine Sprechstunde</p>'
+    + '<h1 class="w-title">Worüber plaudern wir heute?</h1>'
+    + '<p class="w-text">Lotte spielt mit dir eine Szene, antwortet laut auf Deutsch und korrigiert dich darunter mit dem Rotstift.<span class="en">Lotte plays a scene with you, replies aloud in German and marks your mistakes below in red pen. Niveau: ' + state.profile.level + '.</span></p>';
+  if (!AI.ready()) {
+    h += '<div class="setup-card"><span class="lbl">Einmalig einrichten · one-time setup</span><b>Verbinde Lotte mit einer KI</b>'
+      + '<p>Lotte braucht einen KI-Schlüssel. Der von Google Gemini ist kostenlos und in zwei Minuten erstellt.<span class="en">Lotte needs an AI key. A Google Gemini key is free and takes two minutes to create.</span></p>'
+      + '<button class="btn primary" type="button" data-act="open-ai">Jetzt einrichten</button></div>';
+  }
+  h += '<div class="w-actions"><button class="btn primary" type="button" data-act="surprise">Überrasch mich</button>'
+    + '<button class="btn" type="button" data-act="pick-scene">Szene wählen</button></div>';
+  if (last && last.turns && last.turns.length) {
+    h += '<div class="resume"><div><span class="lbl">Weitermachen · continue</span><b>' + esc(last.title) + '</b><span class="en">' + relDate(last.updatedAt) + ' · ' + last.turns.filter(t => t.r === 'l').length + ' Nachrichten</span></div>'
+      + '<button class="btn sm primary" type="button" data-act="resume" data-id="' + esc(last.id) + '">Weiter</button></div>';
+  }
+  h += '<div class="w-section"><span class="lbl">Heute vorgeschlagen · suggested for ' + state.profile.level + '</span><div class="pick-grid">'
+    + levelPicks().map(s => '<button class="pick" type="button" data-act="scene" data-id="' + s.id + '"><b>' + esc(s.de) + '</b><span>' + esc(s.en) + '</span></button>').join('')
+    + '</div></div>';
+  h += '<figure class="example"><span class="lbl">Beispiel · so sieht eine Korrektur aus</span>'
+    + '<p class="ex-l" lang="de">Ja, du bist recht.</p>'
+    + '<p class="ex-r" lang="de">Ja, du <mark>hast</mark> recht.</p>'
+    + '<p class="ex-why">In German you “have” right: recht haben, not recht sein.</p></figure>';
+  return h + '</div>';
+}
+
+function renderChat() {
+  const bar = $('#sceneBar'), th = $('#thread');
+  th.classList.toggle('hide-en', !state.profile.settings.showEn);
+  if (!state.session) {
+    bar.hidden = true;
+    th.innerHTML = welcomeHTML();
+    updateComposer();
+    return;
+  }
+  bar.hidden = false;
+  $('#sceneTitle').textContent = state.session.title;
+  $('#sceneSub').textContent = (state.session.titleEn || '') + ' · ' + state.profile.level;
+  let h = state.session.turns.map((t, i) => t.r === 'l' ? learnerHTML(t, i) : tutorHTML(t, i)).join('');
+  if (state.busy) {
+    h += '<article class="msg-t pending"><div class="t-head"><span class="avatar" aria-hidden="true">L</span><span class="t-name">Lotte</span><span class="sp"></span>'
+      + '<button class="btn sm ghost" type="button" data-act="stop">' + ICON.stop + 'Stopp</button></div>'
+      + '<p class="t-reply" lang="de">Lotte denkt nach<span class="dots"><i></i><i></i><i></i></span></p></article>';
+  }
+  if (state.errorCard) {
+    const e = state.errorCard;
+    h += '<div class="err-card" role="alert"><p><b>' + esc(e.msg) + '</b><br><span class="en">' + esc(e.en) + '</span></p><div class="row">'
+      + (e.retry ? '<button class="btn sm" type="button" data-act="retry" data-opening="' + (e.opening ? 1 : 0) + '">Nochmal versuchen</button>' : '')
+      + (e.setup ? '<button class="btn sm" type="button" data-act="open-ai">' + esc(e.setup) + '</button>' : '')
+      + '</div></div>';
+  }
+  if (!state.session.turns.length && !state.busy && !state.errorCard) h += '<p class="note-line">Schreib die erste Nachricht oder warte auf Lotte.</p>';
+  th.innerHTML = h;
+  onSavedChanged();
+  TTS.mark(TTS.key);
+  scrollBottom();
+}
+function scrollBottom() { requestAnimationFrame(() => { const m = $('#main'); m.scrollTop = m.scrollHeight; }); }
+
+/* ---------- rendering: saved ---------- */
+function renderSaved() {
+  const list = $('#svList');
+  const f = state.filter, q = norm(state.query);
+  const groups = { word: ['word'], phrase: ['phrase', 'idiom'], slang: ['slang'], sentence: ['sentence', 'grammar'] };
+  const items = state.saved.filter(x => (f === 'all' || (groups[f] || []).includes(x.kind)) && (!q || norm(x.de + ' ' + x.en + ' ' + (x.note || '')).includes(q)));
+  $$('#filters [data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === f)));
+  if (!state.saved.length) {
+    list.innerHTML = '<li class="empty"><b>Noch nichts gespeichert</b>Tippe im Gespräch auf das Lesezeichen neben Lottes Antwort, einer Korrektur oder einem neuen Wort. Tap the bookmark next to a reply, a correction or a new word.</li>';
+    return;
+  }
+  if (!items.length) { list.innerHTML = '<li class="empty">Nichts gefunden. Nothing matches this filter.</li>'; return; }
+  list.innerHTML = items.map(x => {
+    const box = Math.max(1, Math.min(5, x.box || 1));
+    return '<li class="sv"><div class="sv-de" lang="de">' + esc(x.de) + '</div>'
+      + (x.en ? '<div class="sv-en">' + esc(x.en) + '</div>' : '')
+      + (x.note ? '<div class="sv-note">' + esc(x.note) + '</div>' : '')
+      + '<div class="sv-meta"><span class="kind ' + esc(x.kind) + '">' + esc(KINDS[x.kind] || 'Satz') + '</span>'
+      + (x.scene ? '<span>' + esc(x.scene) + '</span>' : '') + '<span>' + relDate(x.createdAt) + '</span>'
+      + '<span class="box-dots" title="Lernstand ' + box + '/5">' + [1, 2, 3, 4, 5].map(n => '<i class="' + (n <= box ? 'f' : '') + '"></i>').join('') + '</span></div>'
+      + '<div class="sv-acts"><button class="icon-btn sm" type="button" data-act="speak-saved" data-id="' + esc(x.id) + '" data-speak-key="s' + esc(x.id) + '" aria-label="Anhören">' + ICON.speaker + '</button>'
+      + '<button class="icon-btn sm" type="button" data-act="del-saved" data-id="' + esc(x.id) + '" aria-label="Löschen">' + ICON.trash + '</button></div></li>';
+  }).join('');
+  TTS.mark(TTS.key);
+}
+
+/* ---------- rendering: progress ---------- */
+function relDate(ts) {
+  if (!ts) return '';
+  const d = new Date(ts), today = new Date();
+  const diff = Math.round((new Date(today.toDateString()) - new Date(d.toDateString())) / 864e5);
+  if (diff === 0) return 'heute';
+  if (diff === 1) return 'gestern';
+  if (diff < 7) return 'vor ' + diff + ' Tagen';
+  return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear();
+}
+function chartSVG(days) {
+  const W = 340, H = 156, pl = 24, pr = 4, pt = 10, pb = 24;
+  const max = Math.max(4, Math.ceil(Math.max(...days.map(d => d.m)) / 2) * 2);
+  const ih = H - pt - pb, bw = (W - pl - pr) / days.length;
+  const wd = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+  let g = '';
+  [0, max / 2, max].forEach(v => {
+    const y = pt + ih - (v / max) * ih;
+    g += '<line class="grid" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + y.toFixed(1) + '" y2="' + y.toFixed(1) + '"/>'
+      + '<text x="' + (pl - 5) + '" y="' + (y + 3).toFixed(1) + '" text-anchor="end">' + v + '</text>';
+  });
+  days.forEach((d, i) => {
+    const x = pl + i * bw + bw * 0.18, w = bw * 0.64;
+    const h = (d.m / max) * ih, hp = (d.p / max) * ih;
+    if (d.m) g += '<rect class="b-all" x="' + x.toFixed(1) + '" y="' + (pt + ih - h).toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" rx="2"/>';
+    if (d.p) g += '<rect class="b-ok" x="' + x.toFixed(1) + '" y="' + (pt + ih - hp).toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + hp.toFixed(1) + '" rx="2"/>';
+    g += '<text x="' + (x + w / 2).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle"' + (i === days.length - 1 ? ' class="today"' : '') + '>' + wd[d.d.getDay()] + '</text>';
+  });
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Nachrichten pro Tag, letzte 14 Tage">' + g + '</svg>';
+}
+function renderProgress() {
+  const P = state.profile;
+  const d14 = lastDays(14), d7 = d14.slice(7);
+  const wk = d7.reduce((a, d) => a + d.m, 0);
+  const m14 = d14.reduce((a, d) => a + d.m, 0), p14 = d14.reduce((a, d) => a + d.p, 0);
+  const acc = m14 ? Math.round((p14 / m14) * 100) + '%' : '–';
+  const st = streak();
+  const cats = Object.entries(P.cats).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const cmax = cats.length ? cats[0][1] : 1;
+  let h = '<div class="page-h"><h2>Dein Fortschritt</h2><div class="acts"><button class="btn sm" type="button" data-act="open-level">Niveau ' + P.level + ' ändern</button></div></div>'
+    + '<div class="stats">'
+    + '<div class="stat"><b>' + st + '</b><span>' + (st === 1 ? 'Tag' : 'Tage') + ' in Folge<br>day streak</span></div>'
+    + '<div class="stat"><b>' + wk + '</b><span>Nachrichten diese Woche<br>messages, last 7 days</span></div>'
+    + '<div class="stat"><b>' + acc + '</b><span>fehlerfrei (14 Tage)<br>mistake-free messages</span></div>'
+    + '<div class="stat"><b>' + state.saved.length + '</b><span>gespeichert<br>saved phrases</span></div>'
+    + '</div>'
+    + '<div class="panel chart"><h3>Die letzten 14 Tage</h3><p class="sub">' + (m14 ? P.stats.msgs + ' Nachrichten insgesamt · ' + P.stats.words + ' Wörter geschrieben oder gesprochen' : 'Schreib deine erste Nachricht – dann wächst hier dein Diagramm. Your chart fills as you practise.') + '</p>'
+    + chartSVG(d14)
+    + '<div class="legend"><span><i class="lg-all"></i>Nachrichten</span><span><i class="lg-ok"></i>davon fehlerfrei</span></div></div>';
+  h += '<div class="panel"><h3>Deine häufigsten Fehler</h3><p class="sub">Your most common mistake types. “Üben” starts a scene built around that rule.</p>';
+  h += cats.length ? '<ul class="mist">' + cats.map(([c, n]) => '<li><span class="mist-name">' + esc(c) + '<small>' + esc(CATS[c] || '') + ' · ' + n + '×</small></span>'
+      + '<button class="btn sm" type="button" data-act="focus" data-cat="' + esc(c) + '">Üben</button>'
+      + '<span class="mist-bar"><i style="width:' + Math.max(6, Math.round((n / cmax) * 100)) + '%"></i></span></li>').join('') + '</ul>'
+    : '<p class="empty" style="margin:0">Noch keine Fehler gesammelt. Mistakes Lotte corrects will be counted here.</p>';
+  h += '</div>';
+  h += '<div class="panel"><h3>Letzte Gespräche</h3><p class="sub">Pick up where you left off.</p>';
+  h += state.sessions.length ? '<ul class="sess">' + state.sessions.slice(0, 8).map(s => '<li><div><b>' + esc(s.title) + '</b><span>' + relDate(s.updatedAt) + ' · ' + s.turns.filter(t => t.r === 'l').length + ' Nachrichten</span></div>'
+      + '<button class="btn sm" type="button" data-act="resume" data-id="' + esc(s.id) + '">Weiter</button></li>').join('') + '</ul>'
+    : '<p class="empty" style="margin:0">Noch keine Gespräche. Start a scene in the Gespräch tab.</p>';
+  h += '</div><p class="store-note">' + esc(storeText()) + '</p>';
+  $('#progressPage').innerHTML = h;
+}
+function storeText() {
+  const p = Profiles.active();
+  return 'Gespeichert in diesem Browser · Profil „' + (p ? p.name : 'Ich') + '“. Speichere ab und zu eine Sicherung in den Einstellungen.';
+}
+
+/* ---------- flashcards ---------- */
+const Cards = { queue: [], i: 0, dir: 'en', shown: false, right: 0 };
+function openCards() {
+  if (!state.saved.length) { toast('Speichere zuerst ein paar Wörter oder Sätze.'); return; }
+  Cards.queue = [...state.saved].sort((a, b) => ((a.box || 1) - (b.box || 1)) || ((a.seen || 0) - (b.seen || 0))).slice(0, 12);
+  Cards.i = 0; Cards.shown = false; Cards.right = 0;
+  openSheet('cardsSheet');
+  renderCard();
+}
+function renderCard() {
+  const fc = $('#fc');
+  if (Cards.i >= Cards.queue.length) {
+    fc.innerHTML = '<div class="fc-card"><p class="fc-q">Fertig!</p><p class="fc-note">' + Cards.right + ' von ' + Cards.queue.length + ' gewusst. ' + Cards.right + ' of ' + Cards.queue.length + ' known.</p></div>'
+      + '<div class="fc-acts"><button class="btn" type="button" data-act="close">Schließen</button><button class="btn primary" type="button" data-act="cards">Nochmal üben</button></div>';
+    return;
+  }
+  const x = Cards.queue[Cards.i];
+  const front = Cards.dir === 'en' && x.en ? x.en : x.de;
+  const back = Cards.dir === 'en' && x.en ? x.de : (x.en || '');
+  fc.innerHTML = '<div class="fc-top"><span>Karte ' + (Cards.i + 1) + ' / ' + Cards.queue.length + '</span>'
+    + '<div class="seg" role="group" aria-label="Richtung"><button type="button" data-act="card-dir" data-val="en" aria-pressed="' + (Cards.dir === 'en') + '">EN → DE</button><button type="button" data-act="card-dir" data-val="de" aria-pressed="' + (Cards.dir === 'de') + '">DE → EN</button></div></div>'
+    + '<div class="fc-card"><p class="fc-q"' + (front === x.de ? ' lang="de"' : '') + '>' + esc(front) + '</p>'
+    + (Cards.shown ? '<p class="fc-a"' + (back === x.de ? ' lang="de"' : '') + '>' + esc(back) + '</p>' + (x.note ? '<p class="fc-note">' + esc(x.note) + '</p>' : '') : '') + '</div>'
+    + (Cards.shown
+      ? '<div class="fc-acts"><button class="btn" type="button" data-act="card-no">Nochmal</button><button class="btn primary" type="button" data-act="card-yes">Gewusst</button></div>'
+      : '<div class="fc-acts"><button class="btn" type="button" data-act="card-say">' + ICON.speaker + 'Anhören</button><button class="btn primary" type="button" data-act="card-show">Aufdecken</button></div>');
+}
+function gradeCard(ok) {
+  const x = Cards.queue[Cards.i];
+  const box = ok ? Math.min(5, (x.box || 1) + 1) : 1;
+  if (ok) Cards.right++;
+  Store.updateSaved(x.id, { box, seen: Date.now() });
+  Cards.i++; Cards.shown = false;
+  renderCard();
+}
+
+/* ---------- sheets ---------- */
+let lastFocus = null;
+function openSheet(id) {
+  closeSheets(true);
+  lastFocus = document.activeElement;
+  $('#backdrop').hidden = false;
+  const s = $('#' + id); s.hidden = false; s.scrollTop = 0;
+  const f = s.querySelector('[data-act="close"]'); if (f) f.focus({ preventScroll: true });
+}
+function closeSheets(silent) {
+  $$('.sheet').forEach(s => { s.hidden = true; });
+  $('#backdrop').hidden = true;
+  if (!silent && lastFocus && lastFocus.focus) { try { lastFocus.focus({ preventScroll: true }); } catch (e) {} }
+}
+function renderLevelList() {
+  $('#levelList').innerHTML = LEVELS.map(l => '<button class="lv" type="button" data-act="set-level" data-val="' + l + '" aria-pressed="' + (l === state.profile.level) + '"><b>' + l + '</b><span><strong>' + LEVEL_INFO[l].de + ' · ' + LEVEL_INFO[l].en + '</strong>' + esc(LEVEL_INFO[l].desc) + '</span></button>').join('');
+}
+function renderSceneSheet() {
+  const li = LEVELS.indexOf(state.profile.level);
+  $('#sceneGroups').innerHTML = Object.keys(GROUPS).map(g => {
+    const list = SCENES.filter(s => s.g === g);
+    return '<p class="lbl scene-group">' + GROUPS[g] + '</p><div class="scene-list">' + list.map(s => '<button class="pick" type="button" data-act="scene" data-id="' + s.id + '"><b>' + esc(s.de) + '</b><span>' + esc(s.en) + '</span>'
+      + (s.min > li ? '<span class="lvl">ab ' + LEVELS[s.min] + '</span>' : '') + '</button>').join('') + '</div>';
+  }).join('');
+}
+
+/* AI setup sheet */
+let aiTab = 'gemini';
+function openAISheet() {
+  aiTab = AI.cfg.provider || 'gemini';
+  $('#geminiKey').value = AI.cfg.geminiKey || '';
+  $('#claudeKey').value = AI.cfg.claudeKey || '';
+  $('#claudeModel').value = AI.cfg.claudeModel || 'claude-haiku-5-5';
+  $$('#aiSheet [data-act="toggle-key"]').forEach(b => { b.textContent = 'Zeigen'; $('#' + b.dataset.for).type = 'password'; });
+  renderAISheet();
+  $('#geminiStatus').textContent = ''; $('#geminiStatus').className = 'status-line';
+  $('#claudeStatus').textContent = ''; $('#claudeStatus').className = 'status-line';
+  openSheet('aiSheet');
+}
+function renderAISheet() {
+  $$('#provSeg [data-prov]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.prov === aiTab)));
+  $('#provGemini').hidden = aiTab !== 'gemini';
+  $('#provClaude').hidden = aiTab !== 'claude';
+  const models = AI.cfg.geminiModels || [];
+  $('#geminiModelRow').hidden = !AI.cfg.geminiKey || !models.length;
+  $('#geminiModel').innerHTML = models.map(m => '<option value="' + esc(m) + '"' + (m === AI.cfg.geminiModel ? ' selected' : '') + '>' + esc(m) + (/flash-lite/.test(m) ? ' · viele Nachrichten' : ' · genauer, wenige Nachrichten') + '</option>').join('');
+  const forget = $('#forgetKeys');
+  forget.hidden = !AI.cfg.geminiKey && !AI.cfg.claudeKey;
+  forget.dataset.confirm = ''; forget.classList.remove('del-confirm'); forget.textContent = 'Schlüssel von diesem Gerät löschen';
+}
+function setStatus(which, text, kind) {
+  const el = $('#' + which + 'Status');
+  el.textContent = text; el.className = 'status-line' + (kind ? ' ' + kind : '');
+}
+function setupErrorText(e) {
+  const code = e && e.code;
+  if (code === 'bad_key') return 'Dieser Schlüssel funktioniert nicht. Hast du ihn vollständig kopiert? (' + (e.message || '') + ')';
+  if (code === 'region') return 'Google erlaubt die Gemini-API an deinem Standort nicht. Versuch Claude.';
+  if (code === 'network') return 'Keine Verbindung. Prüfe dein Internet.';
+  if (code === 'billing') return 'Kein Guthaben auf dem Anthropic-Konto.';
+  if (code === 'quota') return 'Limit erreicht. Der Schlüssel ist aber gültig – versuch es gleich nochmal.';
+  return 'Fehler: ' + ((e && e.message) || code || 'unbekannt');
+}
+function afterSetup() {
+  renderChat();
+  applySettingsUI();
+  setTimeout(() => { if (!$('#aiSheet').hidden) closeSheets(); toast('Lotte ist bereit. Viel Spaß!'); }, 900);
+}
+
+/* settings sheet */
+function renderVoiceSelect() {
+  const sel = $('#voiceSel'), note = $('#voiceNote');
+  if (!sel) return;
+  if (!TTS.ok) { sel.innerHTML = '<option>Nicht verfügbar</option>'; sel.disabled = true; note.textContent = 'Speech output is not supported in this browser.'; return; }
+  if (!TTS.voices.length) { sel.innerHTML = '<option value="">Systemstimme (de-DE)</option>'; note.textContent = 'Keine deutsche Stimme gefunden. iPhone: Einstellungen → Bedienungshilfen → Gesprochene Inhalte → Stimmen → Deutsch.'; return; }
+  sel.innerHTML = TTS.voices.map(v => '<option value="' + esc(v.voiceURI) + '"' + (TTS.voice && v.voiceURI === TTS.voice.voiceURI ? ' selected' : '') + '>' + esc(v.name) + ' (' + esc(v.lang) + ')</option>').join('');
+  note.textContent = TTS.voices.length + ' deutsche Stimme' + (TTS.voices.length === 1 ? '' : 'n') + ' gefunden. Bessere Stimmen: Einstellungen → Bedienungshilfen → Gesprochene Inhalte → Stimmen.';
+}
+function renderAIStatus() {
+  const ok = AI.ready();
+  $('#aiStatus').innerHTML = '<span class="dot' + (ok ? ' ok' : '') + '"></span><div><b>' + (ok ? 'Lotte ist bereit' : 'Lotte ist noch nicht eingerichtet') + '</b><span>' + esc(ok ? AI.label() : 'Add a free Gemini key to start talking.') + '</span></div>'
+    + '<button class="btn sm" type="button" data-act="open-ai">' + (ok ? 'Ändern' : 'Einrichten') + '</button>';
+}
+function renderProfiles() {
+  $('#profList').innerHTML = Profiles.list.map(p => {
+    const active = p.id === Profiles.activeId;
+    return '<div class="prof' + (active ? ' active' : '') + '"><div><b>' + esc(p.name) + '</b><span>Niveau ' + Profiles.levelOf(p.id) + (active ? ' · aktiv' : '') + '</span></div>'
+      + (active ? '' : '<button class="btn sm" type="button" data-act="switch-prof" data-id="' + esc(p.id) + '">Wechseln</button>')
+      + (Profiles.list.length > 1 ? '<button class="icon-btn sm" type="button" data-act="del-prof" data-id="' + esc(p.id) + '" aria-label="Profil löschen">' + ICON.trash + '</button>' : '')
+      + '</div>';
+  }).join('');
+}
+function applySettingsUI() {
+  const st = state.profile.settings;
+  $('#levelLabel').textContent = state.profile.level;
+  $('#rateIn').value = st.rate;
+  $('#rateOut').textContent = String(Number(st.rate).toFixed(2)).replace('.', ',') + '×';
+  $('#autoSpeak').checked = !!st.autoSpeak;
+  $('#showEn').checked = !!st.showEn;
+  $('#autoSend').checked = !!st.autoSend;
+  $$('.seg[data-setting]').forEach(seg => {
+    const val = st[seg.dataset.setting];
+    $$('button', seg).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.val === val)));
+  });
+  const p = Profiles.active();
+  $('#brandSub').textContent = 'Deutsch sprechen mit Lotte' + (Profiles.list.length > 1 && p ? ' · ' + p.name : '');
+  $('#storeNote').textContent = storeText();
+  renderAIStatus();
+  renderProfiles();
+}
+
+function switchProfile(id) {
+  if (state.ctl) { try { state.ctl.abort(); } catch (e) {} }
+  TTS.stop();
+  Profiles.activeId = id; LS.set('active', id);
+  Store.load();
+  state.session = null; state.errorCard = null; state.busy = false;
+  resumeRecent();
+  applySettingsUI();
+  onSavedChanged();
+  setView('chat');
+  const p = Profiles.active();
+  toast('Profil: ' + (p ? p.name : ''));
+}
+function resumeRecent() {
+  const last = state.sessions[0];
+  if (last && last.turns && last.turns.length && Date.now() - (last.updatedAt || 0) < 4 * 864e5) state.session = clone(last);
+}
+
+/* backup */
+async function exportBackup() {
+  Store.persist();
+  const data = {
+    app: 'plauderstunde', v: 2, exportedAt: new Date().toISOString(), active: Profiles.activeId,
+    profiles: Profiles.list.map(p => Object.assign({}, p, { data: LS.json('data:' + p.id, null) }))
+  };
+  const name = 'plauderstunde-sicherung-' + dayKey() + '.json';
+  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+  const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  try {
+    const file = new File([blob], name, { type: 'application/json' });
+    if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: 'Plauderstunde-Sicherung' });
+      return;
+    }
+  } catch (e) { if (e && e.name === 'AbortError') return; }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+  toast('Sicherung gespeichert');
+}
+function readImport(file) {
+  const box = $('#importConfirm');
+  const reader = new FileReader();
+  reader.onload = () => {
+    let d = null;
+    try { d = JSON.parse(String(reader.result)); } catch (e) {}
+    if (!d || d.app !== 'plauderstunde' || !Array.isArray(d.profiles) || !d.profiles.length) {
+      box.hidden = false; box.innerHTML = '<span>Das ist keine Plauderstunde-Sicherung.</span>'; state.pendingImport = null; return;
+    }
+    state.pendingImport = d;
+    box.hidden = false;
+    box.innerHTML = '<span><b>' + d.profiles.length + ' Profil' + (d.profiles.length === 1 ? '' : 'e') + '</b> in der Sicherung vom ' + esc(String(d.exportedAt || '').slice(0, 10)) + '. Die Daten auf diesem Gerät werden ersetzt.<span class="en" style="display:block">This replaces the profiles and progress on this device.</span></span>'
+      + '<div class="btn-row"><button class="btn sm primary" type="button" data-act="import-yes">Ersetzen</button><button class="btn sm" type="button" data-act="import-no">Abbrechen</button></div>';
+  };
+  reader.readAsText(file);
+}
+function applyImport() {
+  const d = state.pendingImport;
+  if (!d) return;
+  Profiles.list.forEach(p => LS.del('data:' + p.id));
+  Profiles.list = d.profiles.filter(p => p && p.id).map(p => ({ id: String(p.id), name: String(p.name || 'Ich').slice(0, 30), createdAt: p.createdAt || Date.now() }));
+  d.profiles.forEach(p => { if (p && p.id && p.data) LS.set('data:' + p.id, JSON.stringify(p.data)); });
+  Profiles.save();
+  state.pendingImport = null;
+  $('#importConfirm').hidden = true;
+  switchProfile(Profiles.list.some(p => p.id === d.active) ? d.active : Profiles.list[0].id);
+  toast('Sicherung geladen');
+}
+function wipeAll() {
+  const keys = [];
+  try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.indexOf(NS) === 0) keys.push(k); } } catch (e) {}
+  keys.forEach(k => { try { localStorage.removeItem(k); } catch (e) {} });
+  location.reload();
+}
+
+/* views */
+function setView(v) {
+  state.view = v;
+  ['chat', 'saved', 'progress'].forEach(x => {
+    $('#view-' + x).hidden = x !== v;
+    $('#tab-' + x).setAttribute('aria-selected', String(x === v));
+  });
+  $('#main').classList.toggle('ruled', v === 'chat');
+  $('#composer').hidden = v !== 'chat';
+  if (v === 'saved') renderSaved();
+  if (v === 'progress') renderProgress();
+  if (v === 'chat') renderChat();
+  else $('#main').scrollTop = 0;
+}
+function updateComposer() {
+  const has = $('#input').value.trim().length > 0;
+  $('#sendBtn').disabled = !has || state.busy;
+  $('#quick').hidden = !state.session;
+}
+function autosize() { const t = $('#input'); t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 140) + 'px'; }
+let toastT = null;
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 2600); }
+function twoTap(el, label, done) {
+  if (el.dataset.confirm === '1') { el.dataset.confirm = ''; done(); return; }
+  const old = el.innerHTML;
+  el.dataset.confirm = '1'; el.textContent = label; el.classList.add('del-confirm');
+  setTimeout(() => { if (el.isConnected && el.dataset.confirm === '1') { el.dataset.confirm = ''; el.classList.remove('del-confirm'); el.innerHTML = old; } }, 3500);
+}
+
+/* ---------- events ---------- */
+function onAct(e) {
+  const el = e.target.closest('[data-act]');
+  if (!el) return;
+  const act = el.dataset.act;
+  const s = state.session;
+  const idx = el.dataset.idx != null ? Number(el.dataset.idx) : -1;
+  const t = s && idx >= 0 ? s.turns[idx] : null;
+  switch (act) {
+    case 'surprise': surprise(); break;
+    case 'pick-scene': renderSceneSheet(); openSheet('sceneSheet'); break;
+    case 'scene': { const sc = SCENES.find(x => x.id === el.dataset.id); if (sc) startScene(sc); break; }
+    case 'resume': {
+      const ss = state.sessions.find(x => x.id === el.dataset.id);
+      if (ss) { TTS.stop(); state.session = clone(ss); state.errorCard = null; setView('chat'); }
+      break;
+    }
+    case 'speak': if (t) { if (TTS.key === 'r' + idx) TTS.stop(); else TTS.speak(t.reply, 'r' + idx); } break;
+    case 'speak-corr': if (t && t.correction) { const k = 'c' + idx; if (TTS.key === k) TTS.stop(); else TTS.speak(t.correction.corrected || t.correction.natural, k); } break;
+    case 'speak-voc': if (t) { const v = t.vocab[Number(el.dataset.j)]; const k = 'v' + idx + '-' + el.dataset.j; if (v) { if (TTS.key === k) TTS.stop(); else TTS.speak(v.de, k); } } break;
+    case 'speak-saved': { const x = state.saved.find(y => y.id === el.dataset.id); const k = 's' + el.dataset.id; if (x) { if (TTS.key === k) TTS.stop(); else TTS.speak(x.de, k); } break; }
+    case 'save-reply': if (t) toggleSave({ de: t.reply, en: t.replyEn, kind: 'sentence', note: '' }); break;
+    case 'save-corr': if (t && t.correction) {
+      const prev = s.turns[idx - 1];
+      toggleSave({ de: t.correction.corrected, en: t.correction.correctedEn, kind: 'sentence', note: t.correction.status === 'question' ? '' : (prev && prev.r === 'l' ? 'Statt: ' + prev.text : '') });
+    } break;
+    case 'save-voc': if (t) { const v = t.vocab[Number(el.dataset.j)]; if (v) toggleSave({ de: v.de, en: v.en, kind: v.kind, note: v.note }); } break;
+    case 'reveal': el.classList.toggle('show'); break;
+    case 'stop': if (state.ctl) state.ctl.abort(); break;
+    case 'retry': state.errorCard = null; askTutor(el.dataset.opening === '1'); break;
+    case 'open-ai': openAISheet(); break;
+    case 'suggest': suggest(); break;
+    case 'use-sug': { const inp = $('#input'); inp.value = el.dataset.text; autosize(); updateComposer(); hideSuggest(); inp.focus(); break; }
+    case 'ins': {
+      const inp = $('#input'); inp.value = el.dataset.text; autosize(); updateComposer(); inp.focus();
+      const p = inp.value.indexOf('…'); if (p >= 0) inp.setSelectionRange(p, p + 1);
+      break;
+    }
+    case 'close-hint': $('#dictHint').hidden = true; LS.set('hint', '1'); break;
+    case 'close': closeSheets(); break;
+    case 'open-level': renderLevelList(); openSheet('levelSheet'); break;
+    case 'set-level': {
+      state.profile.level = el.dataset.val; Store.saveProfile(); applySettingsUI(); renderLevelList(); closeSheets();
+      if (state.session) { state.session.level = state.profile.level; toast('Ab jetzt spricht Lotte auf ' + state.profile.level + '.'); }
+      if (state.view === 'chat') renderChat(); else if (state.view === 'progress') renderProgress();
+      break;
+    }
+    case 'cards': openCards(); break;
+    case 'card-show': Cards.shown = true; renderCard(); break;
+    case 'card-say': { const x = Cards.queue[Cards.i]; if (x) TTS.speak(x.de, 'card'); break; }
+    case 'card-yes': gradeCard(true); break;
+    case 'card-no': gradeCard(false); break;
+    case 'card-dir': Cards.dir = el.dataset.val; Cards.shown = false; renderCard(); break;
+    case 'add-entry': $('#addForm').reset(); openSheet('addSheet'); break;
+    case 'del-saved': {
+      if (el.dataset.confirm === '1') { Store.removeSaved(el.dataset.id); toast('Gelöscht'); }
+      else {
+        el.dataset.confirm = '1'; el.classList.add('del-confirm'); el.textContent = 'Löschen?';
+        setTimeout(() => { if (el.isConnected) { el.dataset.confirm = ''; el.classList.remove('del-confirm'); el.innerHTML = ICON.trash; } }, 3000);
+      }
+      break;
+    }
+    case 'focus': focusScene(el.dataset.cat); break;
+    case 'test-voice': TTS.unlock(); TTS.speak('Hallo! Ich bin Lotte. Wollen wir ein bisschen plaudern?', 'test'); break;
+    case 'toggle-key': {
+      const inp = $('#' + el.dataset.for);
+      const show = inp.type === 'password';
+      inp.type = show ? 'text' : 'password'; el.textContent = show ? 'Verbergen' : 'Zeigen';
+      break;
+    }
+    case 'forget-keys': twoTap(el, 'Wirklich löschen?', () => {
+      AI.cfg.geminiKey = ''; AI.cfg.claudeKey = ''; AI.cfg.geminiModels = []; AI.cfg.geminiModel = ''; AI.save();
+      renderAISheet(); renderChat(); applySettingsUI(); toast('Schlüssel gelöscht');
+    }); break;
+    case 'switch-prof': closeSheets(true); switchProfile(el.dataset.id); break;
+    case 'del-prof': twoTap(el, 'Löschen?', () => {
+      const id = el.dataset.id;
+      Profiles.list = Profiles.list.filter(p => p.id !== id); Profiles.save(); LS.del('data:' + id);
+      if (Profiles.activeId === id) switchProfile(Profiles.list[0].id); else applySettingsUI();
+      toast('Profil gelöscht');
+    }); break;
+    case 'export': exportBackup(); break;
+    case 'import': $('#importFile').click(); break;
+    case 'import-yes': applyImport(); break;
+    case 'import-no': state.pendingImport = null; $('#importConfirm').hidden = true; break;
+    case 'wipe': twoTap(el, 'Wirklich alles löschen? Nochmal tippen', wipeAll); break;
+  }
+}
+
+function bindUI() {
+  document.addEventListener('click', onAct);
+  $('#backdrop').addEventListener('click', () => closeSheets());
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#backdrop').hidden) closeSheets(); });
+  $$('.tabs [data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+  $('#levelBtn').addEventListener('click', () => { renderLevelList(); openSheet('levelSheet'); });
+  $('#settingsBtn').addEventListener('click', () => { applySettingsUI(); TTS.load(); $('#importConfirm').hidden = true; openSheet('settingsSheet'); });
+  $('#micBtn').addEventListener('click', () => Mic.toggle());
+  const inp = $('#input');
+  inp.addEventListener('input', () => { autosize(); updateComposer(); });
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing && window.matchMedia('(pointer:fine)').matches) { e.preventDefault(); send(); }
+  });
+  inp.addEventListener('focus', () => { if (Mic.blocked && !local.hintSeen && state.session) { showHint(); local.hintSeen = true; LS.set('hint', '1'); } });
+  $('#form').addEventListener('submit', e => { e.preventDefault(); send(); });
+  $('#customForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const v = $('#customTopic').value.trim();
+    if (!v) return;
+    $('#customTopic').value = '';
+    startScene({ id: 'custom', g: 'Frei', de: v, en: 'Your own topic', desc: 'A natural conversation about: ' + v + '. Choose a fitting role for yourself and describe it in "setting".' });
+  });
+  $('#addForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const de = $('#addDe').value.trim();
+    if (!de) return;
+    if (findSaved(de)) { toast('Schon gespeichert'); return; }
+    Store.addSaved({ id: 'v' + uid(), createdAt: Date.now(), box: 1, scene: '', de, en: $('#addEn').value.trim(), kind: $('#addKind').value, note: $('#addNote').value.trim() });
+    closeSheets(); toast('Gespeichert');
+  });
+  $$('#filters [data-filter]').forEach(b => b.addEventListener('click', () => { state.filter = b.dataset.filter; renderSaved(); }));
+  $('#svSearch').addEventListener('input', e => { state.query = e.target.value; renderSaved(); });
+  $('#rateIn').addEventListener('input', e => { state.profile.settings.rate = Number(e.target.value); $('#rateOut').textContent = String(Number(e.target.value).toFixed(2)).replace('.', ',') + '×'; });
+  $('#rateIn').addEventListener('change', () => Store.saveProfile());
+  ['autoSpeak', 'showEn', 'autoSend'].forEach(id => $('#' + id).addEventListener('change', e => {
+    state.profile.settings[id] = e.target.checked; Store.saveProfile();
+    if (id === 'showEn') renderChat();
+  }));
+  $$('.seg[data-setting] button').forEach(b => b.addEventListener('click', () => {
+    state.profile.settings[b.parentElement.dataset.setting] = b.dataset.val;
+    Store.saveProfile(); applySettingsUI();
+  }));
+  $('#voiceSel').addEventListener('change', e => {
+    const v = TTS.voices.find(x => x.voiceURI === e.target.value);
+    if (v) { TTS.voice = v; local.voiceURI = v.voiceURI; LS.set('voice', v.voiceURI); }
+  });
+
+  // AI setup
+  $$('#provSeg [data-prov]').forEach(b => b.addEventListener('click', () => { aiTab = b.dataset.prov; renderAISheet(); }));
+  $('#geminiForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const key = $('#geminiKey').value.trim();
+    if (!key) { setStatus('gemini', 'Bitte füge zuerst deinen Schlüssel ein.', 'err'); return; }
+    const btn = $('#geminiSave'); btn.disabled = true;
+    setStatus('gemini', 'Prüfe den Schlüssel …');
+    try {
+      const models = await AI.listGemini(key);
+      AI.cfg.geminiKey = key;
+      AI.cfg.geminiModels = models.length ? models : GEMINI_FALLBACK.slice();
+      if (!AI.cfg.geminiModels.includes(AI.cfg.geminiModel)) AI.cfg.geminiModel = AI.cfg.geminiModels[0];
+      AI.cfg.provider = 'gemini';
+      AI.save();
+      renderAISheet();
+      setStatus('gemini', 'Fertig! Lotte nutzt ' + AI.cfg.geminiModel + '.', 'ok');
+      afterSetup();
+    } catch (err) {
+      setStatus('gemini', setupErrorText(err), 'err');
+    } finally { btn.disabled = false; }
+  });
+  $('#geminiModel').addEventListener('change', e => { AI.cfg.geminiModel = e.target.value; AI.save(); applySettingsUI(); toast('Modell: ' + e.target.value); });
+  $('#claudeForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const key = $('#claudeKey').value.trim();
+    const model = $('#claudeModel').value;
+    if (!key) { setStatus('claude', 'Bitte füge zuerst deinen Schlüssel ein.', 'err'); return; }
+    const btn = $('#claudeSave'); btn.disabled = true;
+    setStatus('claude', 'Teste den Schlüssel …');
+    try {
+      await AI.claudeCall('', [{ role: 'user', content: 'Antworte nur mit: OK' }], { key, model, maxTokens: 5, temperature: 0 });
+      AI.cfg.claudeKey = key; AI.cfg.claudeModel = model; AI.cfg.provider = 'claude'; AI.save();
+      setStatus('claude', 'Fertig! Lotte nutzt Claude.', 'ok');
+      afterSetup();
+    } catch (err) {
+      setStatus('claude', setupErrorText(err), 'err');
+    } finally { btn.disabled = false; }
+  });
+
+  // profiles + backup
+  $('#profForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('#profName').value.trim().slice(0, 30);
+    if (!name) return;
+    $('#profName').value = '';
+    const p = Profiles.add(name);
+    switchProfile(p.id);
+    closeSheets();
+  });
+  $('#importFile').addEventListener('change', e => {
+    const f = e.target.files && e.target.files[0];
+    if (f) readImport(f);
+    e.target.value = '';
+  });
+}
+
+/* ---------- boot ---------- */
+function boot() {
+  bindUI();
+  TTS.load();
+  if (TTS.ok) { try { speechSynthesis.addEventListener('voiceschanged', () => TTS.load()); } catch (e) {} }
+  Profiles.load();
+  Store.load();
+  resumeRecent();
+  applySettingsUI();
+  setView('chat');
+  onSavedChanged();
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch (e) {}
+}
+boot();
+})();
+</script>
+</body>
+</html>
